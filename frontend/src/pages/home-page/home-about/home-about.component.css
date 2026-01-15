@@ -1,0 +1,179 @@
+@charset "UTF-8";
+.content .container {
+  display: flex;
+  width: 90%;
+  margin: 0 auto;
+}
+.content .container__about {
+  color: #000;
+  background-color: #fff;
+  flex: 1; /* Каждый блок займет одинаковое пространство */
+  margin: 10px;
+  min-width: 0; /* Чтобы предотвратить переполнение */
+  border-radius: var(--border-radius-m);
+  overflow: hidden;
+}
+.content .container__about .title {
+  padding: 3rem 0 0 3rem;
+  font: var(--font-l);
+  margin-bottom: 1.5rem;
+}
+.content .container__about .text {
+  padding: 0 3rem 1rem 3rem;
+  font-size: 17px;
+  margin-bottom: 1rem;
+}
+.content .container__about .link {
+  padding: 0 0 1rem 3rem;
+  font-weight: 300;
+  color: #8d8787; /* Цвет ссылки */
+  text-decoration: underline; /* Подчеркивание ссылки */
+  transition: color 0.3s ease; /* Плавный переход цвета при наведении */
+}
+.content .container__about .link:hover {
+  color: #0056b3; /* Цвет ссылки при наведении */
+}
+.content .container__about .info {
+  padding: 0 0 1rem 3rem;
+  margin-top: 2.5rem;
+  display: flex;
+}
+.content .container__about .info__item {
+  width: 80%;
+  margin: 0 auto;
+}
+.content .container__about .info__item .value {
+  font: var(--font-l);
+}
+.content .container__about .info:last-of-type {
+  margin-top: 1rem;
+  padding-bottom: 5rem;
+}
+.content .container__video {
+  position: relative;
+  flex: 1;
+  margin: 10px;
+  min-width: 0;
+  border-radius: var(--border-radius-m);
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.content .container__video video {
+  height: 100%;
+  pointer-events: none;
+  -o-object-fit: cover;
+  object-fit: cover;
+  pointer-events: none;
+}
+.content .container__video .sound {
+  position: absolute;
+  top: 42.5rem;
+  right: 0.2rem;
+  z-index: 10;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.content .container__video .image {
+  width: 2rem;
+}
+.content .container__video video {
+  pointer-events: none; /* Отключение взаимодействия с контролами */
+  transform: translateX(-20%);
+}
+
+@media (max-width: 1024px) {
+  .content .container {
+    width: 95%;
+    flex-direction: row;
+  }
+  .content .container__about,
+  .content .container__video {
+    height: 50vw; /* Высота равна 90% от ширины экрана */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .content .container__about {
+    margin: 5px;
+  }
+  .content .container__about .title {
+    padding: 1rem 0 0 2rem;
+    margin-bottom: 0;
+  }
+  .content .container__about .text {
+    padding: 1rem 0 0 2rem;
+    font-size: 14px;
+    margin-bottom: 0;
+  }
+  .content .container__about .info {
+    margin-top: 1rem;
+    padding: 1rem 0 0 2rem;
+  }
+  .content .container__about .info__item {
+    font: var(--font-ss);
+  }
+  .content .container__about .link {
+    padding: 0.5rem 0 0 2rem;
+  }
+  .content .container__video {
+    margin: 5px;
+    position: relative;
+  }
+  .content .container__video .sound {
+    position: absolute;
+    top: 42.5rem;
+    right: 0.2rem;
+    z-index: 10;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+}
+@media (max-width: 768px) {
+  .content .container {
+    flex-direction: column;
+  }
+  .content .container__about .title {
+    padding: 1rem 0 0 1rem;
+    margin-bottom: 0.5rem;
+  }
+  .content .container__about .text {
+    padding: 0 1rem 1rem 1rem;
+    font-size: 14px;
+    margin-bottom: 0.5rem;
+  }
+  .content .container__about .info {
+    padding: 0 1rem 1rem 1rem;
+  }
+  .content .container__about .info__item {
+    width: 90%;
+    margin: 0 auto;
+  }
+  .content .container__about .info__item .value {
+    font: var(--font-l);
+  }
+  .content .container .link {
+    padding: 0 1rem 1rem 1rem;
+  }
+  .content .container__video {
+    height: 500px;
+    flex: 1;
+    margin: 10px;
+    min-width: 0;
+    border-radius: var(--border-radius-m);
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    height: 100px;
+  }
+  .content .container__video .image {
+    width: 2rem;
+  }
+  .content .container__video video {
+    width: 100%;
+    height: 100%;
+    -o-object-fit: cover;
+    object-fit: cover;
+    pointer-events: none;
+  }
+} /*# sourceMappingURL=home-about.component.css.map */

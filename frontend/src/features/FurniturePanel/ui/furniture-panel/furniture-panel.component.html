@@ -1,0 +1,14 @@
+<app-stack class="panel" direction="column" alignItems="center" gap="32px">
+  <app-admin-change-action [isEdit]="isEdit"></app-admin-change-action>
+
+  <app-furniture-form
+    *ngIf="!isEdit || curEditFurniture$.value"
+    [furniture$]="curEditFurniture$"
+  ></app-furniture-form>
+
+  <app-furniture-edit-list
+    *ngIf="isEdit"
+    [furnitures$]="furnitures$"
+    [curEditFurniture$]="curEditFurniture$"
+  ></app-furniture-edit-list>
+</app-stack>

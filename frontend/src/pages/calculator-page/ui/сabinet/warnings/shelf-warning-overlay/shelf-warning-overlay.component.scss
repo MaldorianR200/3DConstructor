@@ -1,0 +1,93 @@
+.shelf-warning-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 10000;
+  backdrop-filter: blur(2px);
+}
+.shelf-warning-modal {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border-radius: 12px;
+  padding: 0;
+  max-width: 450px;
+  width: 90%;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  border: 2px solid #ffcc00;
+  animation: slideIn 0.3s ease-out;
+}
+.shelf-warning-header {
+  display: flex;
+  align-items: center;
+  padding: 20px 24px 0 24px;
+  margin-bottom: 16px;
+  position: relative;
+}
+.shelf-warning-header h3 {
+  margin: 0;
+  color: #333;
+  font-size: 1.3em;
+  flex: 1;
+}
+.shelf-warning-icon {
+  font-size: 1.5em;
+  margin-right: 12px;
+}
+.close-btn {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 1.5em;
+  cursor: pointer;
+  color: #666;
+}
+.shelf-warning-content {
+  padding: 0 24px;
+  margin-bottom: 24px;
+}
+.shelf-warning-content p {
+  margin: 0;
+  color: #555;
+  font-size: 1.1em;
+  line-height: 1.5;
+}
+.shelf-warning-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 24px 24px 24px;
+}
+.btn {
+  padding: 10px 24px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btn-primary {
+  background: #3498db;
+  color: white;
+}
+.btn-primary:hover {
+  background: #2980b9;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -60%) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}

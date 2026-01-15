@@ -1,0 +1,78 @@
+.homeOverlay {
+  width: 100vw;
+  max-width: 100%;
+  height: 100vh;
+  max-height: 1080px;
+  position: relative;
+  background-image: url('/shared/assets/images/home-bg.jpg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  &__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__title {
+    font: var(--font-l);
+    text-transform: uppercase;
+    position: absolute;
+    bottom: 120px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 768px) {
+  .homeOverlay {
+    &__img {
+      width: 100%;
+      height: auto;
+      max-height: 100vh;
+    }
+
+    &__title {
+      font: var(--font-m);
+      bottom: 80px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .homeOverlay {
+    &__img {
+      width: 100vw;
+      height: auto;
+      transition:
+        transform 0.3s ease,
+        height 0.3s ease; // Добавьте переходы
+
+      // width: 100%;
+      // height: 100%;
+      object-fit: contain;
+      bottom: 30%;
+
+      &.stretch {
+        height: 200vh; // Высота на всю видимую область
+        transition: max-height 1.3s ease-in-out;
+        object-fit: cover;
+      }
+
+      &.zoom {
+        transform: scale(1.1); // Зумирование
+      }
+    }
+
+    &__title {
+      font: var(--font-m);
+      bottom: 65%;
+      width: 300px;
+      font-size: 22px;
+
+      &.hidden {
+        opacity: 0; // Скрываем текст
+      }
+    }
+  }
+}

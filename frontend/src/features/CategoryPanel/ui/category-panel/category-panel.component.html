@@ -1,0 +1,14 @@
+<app-stack class="panel" direction="column" alignItems="center" gap="32px">
+  <app-admin-change-action [isEdit]="isEdit"></app-admin-change-action>
+
+  <app-category-form
+    *ngIf="!isEdit || curEditCategory$.value"
+    [category$]="curEditCategory$"
+  ></app-category-form>
+
+  <app-category-edit-list
+    *ngIf="isEdit"
+    [categories$]="categories$"
+    [curEditCategory$]="curEditCategory$"
+  ></app-category-edit-list>
+</app-stack>

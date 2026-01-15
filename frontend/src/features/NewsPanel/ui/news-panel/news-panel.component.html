@@ -1,0 +1,11 @@
+<app-stack class="panel" direction="column" alignItems="center" gap="32px">
+  <app-admin-change-action [isEdit]="isEdit"></app-admin-change-action>
+
+  <app-news-form *ngIf="!isEdit || curEditNews$.value" [news$]="curEditNews$"></app-news-form>
+
+  <app-news-edit-list
+    *ngIf="isEdit"
+    [news$]="news$"
+    [curEditNews$]="curEditNews$"
+  ></app-news-edit-list>
+</app-stack>

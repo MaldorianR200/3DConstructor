@@ -1,0 +1,55 @@
+.grid {
+  width: var(--grid-width);
+  position: relative;
+  display: grid;
+  --count-gap: calc(var(--count-columns) - 1);
+  --width-without-gap: calc(var(--grid-width) - var(--gap) * var(--count-gap));
+  --grid-item-size: calc(var(--width-without-gap) / var(--count-columns));
+  grid-template-columns: repeat(var(--count-columns), var(--grid-item-size));
+  grid-template-rows: repeat(var(--count-rows), var(--grid-item-size));
+  gap: var(--gap);
+}
+.grid.griddesktop {
+  --gap: 15px;
+  --grid-width: 1480px;
+  --radius: 30px;
+  --path-to-icon: url('/shared/assets/icons/desktopStarIcon.svg');
+  --width-icon: 75px;
+}
+.grid.gridtablet {
+  --gap: 8px;
+  --grid-width: 820px;
+  --radius: 20px;
+  --path-to-icon: url('/shared/assets/icons/tabletStarIcon.svg');
+  --width-icon: 44px;
+}
+.grid.gridmobile {
+  --gap: 5px;
+  --grid-width: 330px;
+  --radius: 15px;
+  --path-to-icon: url('/shared/assets/icons/mobileStarIcon.svg');
+  --width-icon: 26px;
+}
+.grid__item {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background-color: #3f4043;
+  border-radius: 30px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  border-radius: var(--radius);
+}
+
+.btn {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+.btn .showMore {
+  color: var(--gray-text-color);
+  text-decoration: underline;
+  background-color: var(--dark-gray-color);
+} /*# sourceMappingURL=Grid.component.css.map */

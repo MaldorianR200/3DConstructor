@@ -1,0 +1,582 @@
+<app-stack direction="column" class="form">
+  <h1 class="adminTitle">{{ isCreate ? 'Создание' : 'Редактирование' }} спецификаций</h1>
+
+  <app-admin-form [form]="specificationForm" (handleSubmit)="submit()">
+    <app-stack direction="column" alignItems="end">
+      <!-- Тип продукции -->
+      <app-admin-input
+        [control]="specificationForm.get('typeProduct')!"
+        [props]="{
+          id: 'specificationTypeProduct',
+          type: 'select',
+          required: true,
+          placeholder: 'Выберите тип продукции',
+        }"
+        [options]="typesProduct"
+        optionLabel="label"
+        optionValue="value"
+      ></app-admin-input>
+
+      <!-- Подвид продукции -->
+      <app-admin-input
+        [control]="specificationForm.get('typeExecution')!"
+        [props]="{
+          id: 'specificationTypeExecution',
+          type: 'select',
+          required: true,
+          placeholder: 'Выберите вид продукции',
+        }"
+        [options]="typesExecution"
+        optionLabel="label"
+        optionValue="value"
+      ></app-admin-input>
+
+      <app-admin-input
+        [control]="specificationForm.get('series')!"
+        [props]="{
+          id: 'specificationSeries',
+          type: 'select',
+          required: true,
+          placeholder: 'Выберите серию',
+        }"
+        [options]="series"
+        optionLabel="label"
+        optionValue="value"
+      ></app-admin-input>
+
+      <!-- Материал -->
+      <app-admin-input
+        [control]="specificationForm.get('materialIds')!"
+        [props]="{
+          id: 'specificationMaterial',
+          type: 'select',
+          required: false,
+          placeholder: 'Выберите материал',
+          multiple: true,
+        }"
+        [options]="materialOptions"
+        optionLabel="label"
+        optionValue="value"
+      ></app-admin-input>
+      <app-stack
+        direction="column"
+        class="selected-items"
+        border="table"
+        *ngIf="getMaterialArray()?.controls?.length > 0"
+      >
+        <!-- Блок для массового ввода коэффициента -->
+        <div class="bulk-update">
+          <app-admin-input
+            [control]="bulkCoefficientControl"
+            [props]="{
+        id: 'bulkCoefficient',
+        type: 'number',
+        placeholder: 'Коэффициент для выделенных',
+      }"
+          ></app-admin-input>
+          <button (click)="applyBulkCoefficient()">Подтвердить</button>
+        </div>
+
+        <!-- Шапка таблицы -->
+        <app-header-table grid="grid" style="width: 100%"></app-header-table>
+
+        <!-- Строки таблицы -->
+        <ng-container *ngFor="let control of getMaterialArray().controls; let i = index">
+          <app-specification-row grid="grid">
+            <input
+              type="checkbox"
+              [id]="'checkbox' + i"
+              (change)="toggleSelection(control, $event)"
+              [checked]="isSelected(control)"
+            />
+            <span>{{ getOptionLabel(control.get('objectId')?.value, 'material') }}</span>
+            <app-admin-input
+              [control]="control.get('coefficient')!"
+              [props]="{
+          id: 'materialCoefficient' + i,
+          type: 'number',
+          required: true,
+          placeholder: 'Коэффициент',
+        }"
+            ></app-admin-input>
+            <span *ngIf="control.get('price')">{{ control.get('price')?.value }} ₽/м²</span>
+            <span *ngIf="control.get('price')">{{ calculateTotal(control) }} ₽</span>
+          </app-specification-row>
+        </ng-container>
+      </app-stack>
+
+      <!-- Комбинированный материал -->
+      <app-admin-input
+        [control]="specificationForm.get('combineMaterialIds')!"
+        [props]="{
+    id: 'specificationCombineMaterial',
+    type: 'select',
+    required: false,
+    placeholder: 'Выберите комбинированный материал',
+    multiple: true,
+  }"
+        [options]="combineMaterialOptions"
+        optionLabel="label"
+        optionValue="value"
+      ></app-admin-input>
+      <app-stack
+        direction="column"
+        class="selected-items"
+        border="table"
+        *ngIf="getCombineMaterialArray()?.controls?.length > 0"
+      >
+        <!-- Блок для массового ввода коэффициента -->
+        <div class="bulk-update">
+          <app-admin-input
+            [control]="bulkCoefficientControl"
+            [props]="{
+        id: 'bulkCoefficient',
+        type: 'number',
+        placeholder: 'Коэффициент для выделенных',
+      }"
+          ></app-admin-input>
+          <button (click)="applyBulkCoefficient()">Подтвердить</button>
+        </div>
+
+        <!-- Шапка таблицы - используем short-grid так как нет цены и итога -->
+        <app-header-table grid="short-grid" style="width: 100%"></app-header-table>
+
+        <!-- Строки таблицы - используем short-grid -->
+        <ng-container *ngFor="let control of getCombineMaterialArray().controls; let i = index">
+          <app-specification-row grid="short-grid">
+            <input
+              type="checkbox"
+              [id]="'checkbox' + i"
+              (change)="toggleSelection(control, $event)"
+              [checked]="isSelected(control)"
+            />
+            <span>{{ getOptionLabel(control.get('objectId')?.value, 'combineMaterial') }}</span>
+            <app-admin-input
+              [control]="control.get('coefficient')!"
+              [props]="{
+          id: 'combineMaterialCoefficient' + i,
+          type: 'number',
+          required: true,
+          placeholder: 'Коэффициент',
+        }"
+            ></app-admin-input>
+          </app-specification-row>
+        </ng-container>
+      </app-stack>
+
+      <!-- Фурнитура -->
+      <app-admin-input
+        [control]="specificationForm.get('furnitureIds')!"
+        [props]="{
+          id: 'specificationFurniture',
+          type: 'select',
+          required: false,
+          placeholder: 'Выберите фурнитуру',
+          multiple: true,
+        }"
+        [options]="furnitureOptions"
+        optionLabel="label"
+        optionValue="value"
+      ></app-admin-input>
+      <app-stack
+        direction="column"
+        class="selected-items"
+        border="table"
+        *ngIf="getFurnitureArray()?.controls?.length > 0"
+      >
+        <!-- Блок для массового ввода коэффициента -->
+        <div class="bulk-update">
+          <app-admin-input
+            [control]="bulkCoefficientControl"
+            [props]="{
+              id: 'bulkCoefficient',
+              type: 'number',
+              placeholder: 'Коэффициент для выделенных',
+            }"
+          ></app-admin-input>
+          <button (click)="applyBulkCoefficient()">Подтвердить</button>
+        </div>
+
+        <!-- Шапка таблицы -->
+        <app-header-table grid="grid" style="width: 100%"></app-header-table>
+
+        <!-- Строки таблицы -->
+        <ng-container *ngFor="let control of getFurnitureArray().controls; let i = index">
+          <app-specification-row grid="grid">
+            <input
+              type="checkbox"
+              [id]="'checkbox' + i"
+              (change)="toggleSelection(control, $event)"
+              [checked]="isSelected(control)"
+            />
+            <span>{{ getOptionLabel(control.get('objectId')?.value, 'furniture') }}</span>
+            <app-admin-input
+              [control]="control.get('coefficient')!"
+              [props]="{
+                id: 'furnitureCoefficient' + i,
+                type: 'number',
+                required: true,
+                placeholder: 'Коэффициент',
+              }"
+            ></app-admin-input>
+            <span *ngIf="control.get('price')">{{ control.get('price')?.value }} ₽/шт</span>
+            <span *ngIf="control.get('price')">{{ calculateTotal(control) }} ₽</span>
+          </app-specification-row>
+        </ng-container>
+      </app-stack>
+
+      <!-- Фрезеровки -->
+      <app-admin-input
+        [control]="specificationForm.get('millingIds')!"
+        [props]="{
+          id: 'specificationMilling',
+          type: 'select',
+          required: false,
+          placeholder: 'Выберите фрезеровки',
+          multiple: true,
+        }"
+        [options]="millingOptions"
+        optionLabel="label"
+        optionValue="value"
+      ></app-admin-input>
+      <app-stack
+        direction="column"
+        class="selected-items"
+        border="table"
+        *ngIf="getMillingArray()?.controls?.length > 0"
+      >
+        <!-- Блок для массового ввода коэффициента -->
+        <div class="bulk-update">
+          <app-admin-input
+            [control]="bulkCoefficientControl"
+            [props]="{
+              id: 'bulkCoefficient',
+              type: 'number',
+              placeholder: 'Коэффициент для выделенных',
+            }"
+          ></app-admin-input>
+          <button (click)="applyBulkCoefficient()">Подтвердить</button>
+        </div>
+
+        <!-- Шапка таблицы -->
+        <app-header-table grid="grid" style="width: 100%"></app-header-table>
+
+        <!-- Строки таблицы -->
+        <ng-container *ngFor="let control of getMillingArray().controls; let i = index">
+          <app-specification-row grid="grid">
+            <input
+              type="checkbox"
+              [id]="'checkbox' + i"
+              (change)="toggleSelection(control, $event)"
+              [checked]="isSelected(control)"
+            />
+            <span>{{ getOptionLabel(control.get('objectId')?.value, 'milling') }}</span>
+            <app-admin-input
+              [control]="control.get('coefficient')!"
+              [props]="{
+                id: 'millingCoefficient' + i,
+                type: 'number',
+                required: true,
+                placeholder: 'Коэффициент',
+              }"
+            ></app-admin-input>
+            <span *ngIf="control.get('price')">
+              {{ getMillingCost(control.get('objectId')?.value) | number:'1.0-3' }} ₽
+            </span>
+            <span *ngIf="control.get('price')">{{ calculateTotal(control) }} ₽</span>
+          </app-specification-row>
+        </ng-container>
+      </app-stack>
+
+      <!-- Категория цвета -->
+      <app-admin-input
+        [control]="specificationForm.get('colorCategoryIds')!"
+        [props]="{
+          id: 'specificationColorCategory',
+          type: 'select',
+          required: false,
+          placeholder: 'Выберите категорию цвета',
+          multiple: true,
+        }"
+        [options]="colorCategoryOptions"
+        optionLabel="label"
+        optionValue="value"
+      ></app-admin-input>
+      <app-stack
+        direction="column"
+        class="selected-items"
+        border="table"
+        *ngIf="getColorCategoryArray()?.controls?.length > 0"
+      >
+        <!-- Блок для массового ввода коэффициента -->
+        <div class="bulk-update">
+          <app-admin-input
+            [control]="bulkCoefficientControl"
+            [props]="{
+              id: 'bulkCoefficient',
+              type: 'number',
+              placeholder: 'Коэффициент для выделенных',
+            }"
+          ></app-admin-input>
+          <button (click)="applyBulkCoefficient()">Подтвердить</button>
+        </div>
+
+        <!-- Шапка таблицы -->
+        <app-header-table grid="short-grid" style="width: 100%"></app-header-table>
+
+        <!-- Строки таблицы -->
+        <ng-container *ngFor="let control of getColorCategoryArray().controls; let i = index">
+          <app-specification-row grid="short-grid">
+            <input
+              type="checkbox"
+              [id]="'checkbox' + i"
+              (change)="toggleSelection(control, $event)"
+              [checked]="isSelected(control)"
+            />
+            <span>{{ getOptionLabel(control.get('objectId')?.value, 'colorCategory') }}</span>
+            <app-admin-input
+              [control]="control.get('coefficient')!"
+              [props]="{
+                id: 'colorCategoryCoefficient' + i,
+                type: 'number',
+                required: true,
+                placeholder: 'Коэффициент',
+              }"
+            ></app-admin-input>
+          </app-specification-row>
+        </ng-container>
+      </app-stack>
+
+      <!-- Цвет -->
+      <app-admin-input
+        [control]="specificationForm.get('colorIds')!"
+        [props]="{
+          id: 'specificationColor',
+          type: 'select',
+          required: false,
+          placeholder: 'Выберите цвет',
+          multiple: true,
+        }"
+        [options]="colorOptions"
+        optionLabel="label"
+        optionValue="value"
+      ></app-admin-input>
+      <app-stack
+        direction="column"
+        class="selected-items"
+        border="table"
+        *ngIf="getColorArray()?.controls?.length > 0"
+      >
+        <!-- Блок для массового ввода коэффициента -->
+        <div class="bulk-update">
+          <app-admin-input
+            [control]="bulkCoefficientControl"
+            [props]="{
+              id: 'bulkCoefficient',
+              type: 'number',
+              placeholder: 'Коэффициент для выделенных',
+            }"
+          ></app-admin-input>
+          <button (click)="applyBulkCoefficient()">Подтвердить</button>
+        </div>
+
+        <!-- Шапка таблицы -->
+        <app-header-table grid="short-grid" style="width: 100%"></app-header-table>
+
+        <!-- Строки таблицы -->
+        <ng-container *ngFor="let control of getColorArray().controls; let i = index">
+          <app-specification-row grid="short-grid">
+            <input
+              type="checkbox"
+              [id]="'checkbox' + i"
+              (change)="toggleSelection(control, $event)"
+              [checked]="isSelected(control)"
+            />
+            <span>
+              <span
+                class="color-square"
+                [style.background-color]="'#'+getColorHex(control.get('objectId')?.value)">
+              </span>
+              {{ getOptionLabel(control.get('objectId')?.value, 'color') }}</span>
+            <app-admin-input
+              [control]="control.get('coefficient')!"
+              [props]="{
+                id: 'colorCoefficient' + i,
+                type: 'number',
+                required: true,
+                placeholder: 'Коэффициент',
+              }"
+            ></app-admin-input>
+          </app-specification-row>
+        </ng-container>
+      </app-stack>
+
+      <!-- Операция -->
+      <app-admin-input
+        [control]="specificationForm.get('operationIds')!"
+        [props]="{
+          id: 'specificationOperation',
+          type: 'select',
+          required: false,
+          placeholder: 'Выберите операцию',
+          multiple: true,
+        }"
+        [options]="operationOptions"
+        optionLabel="label"
+        optionValue="value"
+      ></app-admin-input>
+      <app-stack
+        direction="column"
+        class="selected-items"
+        border="table"
+        *ngIf="getOperationArray()?.controls?.length > 0"
+      >
+        <!-- Блок для массового ввода коэффициента -->
+        <div class="bulk-update">
+          <app-admin-input
+            [control]="bulkCoefficientControl"
+            [props]="{
+              id: 'bulkCoefficient',
+              type: 'number',
+              placeholder: 'Коэффициент для выделенных',
+            }"
+          ></app-admin-input>
+          <button (click)="applyBulkCoefficient()">Подтвердить</button>
+        </div>
+
+        <!-- Шапка таблицы -->
+        <app-header-table grid="grid" style="width: 100%"></app-header-table>
+
+        <!-- Строки таблицы -->
+        <ng-container *ngFor="let control of getOperationArray().controls; let i = index">
+          <app-specification-row grid="grid">
+            <input
+              type="checkbox"
+              [id]="'checkbox' + i"
+              (change)="toggleSelection(control, $event)"
+              [checked]="isSelected(control)"
+            />
+            <span>{{ getOptionLabel(control.get('objectId')?.value, 'operation') }}</span>
+            <app-admin-input
+              [control]="control.get('coefficient')!"
+              [props]="{
+                id: 'operationCoefficient' + i,
+                type: 'number',
+                required: true,
+                placeholder: 'Коэффициент',
+              }"
+            ></app-admin-input>
+            <span *ngIf="control.get('price')">{{ control.get('price')?.value }} ₽</span>
+            <span *ngIf="control.get('price')">{{ calculateTotal(control) }} ₽</span>
+          </app-specification-row>
+        </ng-container>
+      </app-stack>
+
+      <!-- Крепеж -->
+      <app-admin-input
+        [control]="specificationForm.get('fastenerIds')!"
+        [props]="{
+          id: 'specificationFastener',
+          type: 'select',
+          required: false,
+          placeholder: 'Выберите крепеж',
+          multiple: true,
+        }"
+        [options]="fastenerOptions"
+        optionLabel="label"
+        optionValue="value"
+      ></app-admin-input>
+      <app-stack
+        direction="column"
+        class="selected-items"
+        border="table"
+        *ngIf="getFastenerArray()?.controls?.length > 0"
+      >
+        <!-- Блок для массового ввода коэффициента -->
+        <div class="bulk-update">
+          <app-admin-input
+            [control]="bulkCoefficientControl"
+            [props]="{
+              id: 'bulkCoefficient',
+              type: 'number',
+              placeholder: 'Коэффициент для выделенных',
+            }"
+          ></app-admin-input>
+          <button (click)="applyBulkCoefficient()">Подтвердить</button>
+        </div>
+
+        <!-- Шапка таблицы -->
+        <app-header-table grid="grid" style="width: 100%"></app-header-table>
+
+        <!-- Строки таблицы -->
+        <ng-container *ngFor="let control of getFastenerArray().controls; let i = index">
+          <app-specification-row grid="grid">
+            <input
+              type="checkbox"
+              [id]="'checkbox' + i"
+              (change)="toggleSelection(control, $event)"
+              [checked]="isSelected(control)"
+            />
+            <span>{{ getOptionLabel(control.get('objectId')?.value, 'fastener') }}</span>
+            <app-admin-input
+              [control]="control.get('coefficient')!"
+              [props]="{
+                id: 'ldspCoefficient' + i,
+                type: 'number',
+                required: true,
+                placeholder: 'Коэффициент',
+              }"
+            ></app-admin-input>
+            <span *ngIf="control.get('price')">{{ control.get('price')?.value }} ₽/шт</span>
+            <span *ngIf="control.get('price')">{{ calculateTotal(control) }} ₽</span>
+          </app-specification-row>
+        </ng-container>
+      </app-stack>
+
+      <!-- Активность -->
+      <app-admin-input
+        [control]="specificationForm.get('active')!"
+        [props]="{
+          id: 'specificationActive',
+          type: 'select',
+          required: true,
+          placeholder: 'Активно?',
+          optionsBool: true,
+        }"
+      ></app-admin-input>
+
+      <!-- Комментарий -->
+      <app-admin-input
+        *ngIf="specificationForm.get('active')?.value === false"
+        [control]="specificationForm.get('comment')!"
+        [props]="{
+          id: 'specificationComment',
+          type: 'text',
+          required: false,
+          placeholder: 'Введите комментарий',
+        }"
+      ></app-admin-input>
+
+      <!-- Кнопки -->
+      <app-stack>
+        <app-admin-button *ngIf="!isCreate" (handleClick)="deleteChangeOpen()" variant="red">
+          Удалить
+        </app-admin-button>
+        <app-admin-button type="submit">
+          {{ isCreate ? 'Создать' : 'Редактировать' }}
+        </app-admin-button>
+      </app-stack>
+    </app-stack>
+  </app-admin-form>
+</app-stack>
+
+<!-- Модалка удаления -->
+<app-admin-modal [isOpen]="isOpenDelete" (handleChangeOpen)="deleteChangeOpen()">
+  <app-stack direction="column" alignItems="center">
+    <h4 class="adminTitle">Вы действительно хотите удалить?</h4>
+    <app-stack>
+      <app-admin-button (handleClick)="deleteChangeOpen()" variant="gray">Отмена</app-admin-button>
+      <app-admin-button (handleClick)="delete()" variant="red">Удалить</app-admin-button>
+    </app-stack>
+  </app-stack>
+</app-admin-modal>

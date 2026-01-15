@@ -1,0 +1,38 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: -moz-fit-content;
+  width: fit-content;
+  padding: 30px;
+  gap: 20px;
+  background-color: var(--admin-sub-bg-color);
+  overflow-y: scroll;
+}
+.sidebar__nav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+}
+.sidebar__item {
+  font-size: 16px;
+  color: var(--admin-white);
+  text-decoration: none;
+  white-space: nowrap;
+  background: none;
+  border: none;
+  text-align: start;
+  transition: all 0.1s ease-in-out;
+  border-bottom: 2px solid transparent;
+}
+.sidebar__item:hover {
+  opacity: 0.7;
+  text-decoration: underline;
+}
+.sidebar__back {
+  margin-bottom: 50px;
+  padding-left: 30px;
+  background: url(/shared/assets/admin/arrow-back.png) 0 center/24px no-repeat;
+} /*# sourceMappingURL=admin-sidebar.component.css.map */

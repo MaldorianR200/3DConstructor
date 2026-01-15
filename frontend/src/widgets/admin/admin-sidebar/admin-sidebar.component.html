@@ -1,0 +1,17 @@
+<aside class="sidebar">
+  <a class="sidebar__item sidebar__back" [routerLink]="[routes.HOME]">К сайту</a>
+
+  <nav class="sidebar__nav">
+    <a class="sidebar__item" [routerLink]="[routes.ADMIN_MAIN]">Главная</a>
+    <a class="sidebar__item" [routerLink]="routes.ADMIN_BASE">Главная база</a>
+    <a class="sidebar__item" [routerLink]="[routes.ADMIN_PROFILE]">Профиль</a>
+    <a class="sidebar__item" [routerLink]="[routes.ADMIN_USERS]">Пользователи</a>
+    <a class="sidebar__item" [routerLink]="[routes.ADMIN_HISTORY]">История</a>
+    <button class="sidebar__item" (click)="handleLogout()">Выйти</button>
+    <br />
+    <a class="sidebar__item" *ngIf="isSeo" [routerLink]="[routes.ADMIN_SEO]">Сео</a>
+    <a class="sidebar__item" *ngIf="isSuperAdmin" [routerLink]="[routes.ADMIN_SUPER]">
+      Супер-Админ
+    </a>
+  </nav>
+</aside>

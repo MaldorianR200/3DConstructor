@@ -1,0 +1,5 @@
+<div class="editList">
+  <article class="editList__item" *ngFor="let grid of grids$ | async" (click)="changeCur(grid)">
+    <p>{{ grid.page }}</p>
+  </article>
+</div>

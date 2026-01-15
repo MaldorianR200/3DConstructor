@@ -1,0 +1,5 @@
+<app-stack direction="column">
+  <li class="editListItem" *ngFor="let user of users$ | async" (click)="changeCur(user)">
+    {{ user.role }}: {{ user.email }}
+  </li>
+</app-stack>

@@ -1,0 +1,16 @@
+<swiper-container
+  class="swiper"
+  scrollbar-hide="true"
+  slides-per-view="auto"
+  space-between="10"
+  free-mode="true"
+>
+  <!-- <div class="swiper-slide" *ngFor="let imageUrl of staticImageUrls"> -->
+  <swiper-slide
+    class="swiper__slide"
+    *ngFor="let neww of (news$ | async)?.slice(0, -1); let i = index"
+  >
+    <img class="image" [src]="'http://localhost:9000' + neww.images[0].path" alt="slider-img" />
+    <p class="title">{{ neww.name }}</p>
+  </swiper-slide>
+</swiper-container>

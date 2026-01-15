@@ -1,0 +1,142 @@
+:host {
+  display: contents;
+}
+
+.grid__item {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background-color: #3f4043;
+  border-radius: 30px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  border-radius: var(--radius);
+  transition:
+    transform 0.3s ease,
+    top 0.3s ease,
+    left 0.3s ease;
+}
+.grid__item::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: calc(-1 * var(--gap));
+  left: calc(-1 * var(--gap));
+  width: 100%;
+  height: 100%;
+  border: var(--gap) solid var(--dark-gray-color);
+  border-radius: calc(var(--radius) + var(--gap));
+  transition: all 0.3s ease-in-out;
+}
+.grid__img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
+  border-radius: var(--radius);
+}
+.grid__text {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.resize-handle {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 40px;
+  height: 40px;
+  background: url(/shared/assets/admin/resizeIcon.png) center/15px no-repeat;
+  background-color: rgba(0, 0, 0, 0.5333333333);
+  border-radius: 0 0 var(--radius) 0;
+  cursor: se-resize;
+}
+
+.drag-handle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  background: url(/shared/assets/admin/dragAndDropIcon.png) center/15px no-repeat;
+  background-color: rgba(0, 0, 0, 0.5333333333);
+  border-radius: var(--radius) 0 0 0;
+  cursor: move;
+}
+
+.index-button {
+  position: absolute;
+  bottom: 0;
+  width: 40px;
+  height: 40px;
+  aspect-ratio: 1;
+  line-height: 40px;
+  background-color: #fff;
+  border-radius: var(--radius);
+  opacity: 1;
+}
+.index-button.increment {
+  font-size: 30px;
+  left: 0;
+  color: green;
+}
+.index-button.decrement {
+  font-size: 40px;
+  left: 50px;
+  color: red;
+}
+.index-button.delete {
+  left: 100px;
+  color: red;
+}
+.index-button:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+  transform: scale(1.1);
+}
+
+.hide-buttons {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.stars {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  --initial-position: calc(-1 * ((var(--width-icon) - var(--gap)) / 2 + var(--gap)));
+  --size-with-gap: calc(var(--grid-item-size) + var(--gap));
+}
+.stars::before,
+.stars::after {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  width: var(--width-icon);
+  height: var(--width-icon);
+  background: var(--path-to-icon) center/contain no-repeat;
+}
+.stars::before {
+  top: calc(var(--initial-position) + var(--size-with-gap) * var(--positionY-first));
+  left: calc(var(--initial-position) + var(--size-with-gap) * var(--positionX-first));
+}
+.stars::after {
+  top: calc(var(--initial-position) + var(--size-with-gap) * var(--positionY-second));
+  left: calc(var(--initial-position) + var(--size-with-gap) * var(--positionX-second));
+}
+
+.z-index-overlay {
+  position: absolute;
+  top: 0;
+  left: 60%;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  padding: 2px 5px;
+  font-size: 12px;
+  border-radius: 3px;
+} /*# sourceMappingURL=GridItem.component.css.map */

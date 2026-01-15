@@ -1,0 +1,41 @@
+:host {
+  width: 100%;
+}
+
+.editList {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+.editList__item {
+  width: calc((100% - 60px) / 5);
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--admin-radius-m);
+  box-shadow: var(--admin-box-shadow-dark);
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+}
+.editList__item:hover {
+  opacity: 0.8;
+  transform: scale(0.97);
+}
+.editList__item img {
+  width: 180px;
+  height: 180px;
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+.editList__item p {
+  font-size: 20px;
+  width: 100%;
+  padding: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+} /*# sourceMappingURL=product-edit-list.component.css.map */

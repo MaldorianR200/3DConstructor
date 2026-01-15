@@ -1,0 +1,23 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--admin-overlay);
+  z-index: var(--admin-index-overlay);
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: -moz-fit-content;
+  width: fit-content;
+  max-width: var(--admin-width);
+  padding: 30px;
+  border-radius: var(--admin-radius-l);
+  background-color: var(--admin-white);
+  z-index: var(--admin-index-modal);
+} /*# sourceMappingURL=admin-modal.component.css.map */

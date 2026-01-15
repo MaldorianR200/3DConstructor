@@ -1,0 +1,31 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.bracings {
+  width: 100%;
+  margin-top: 10px;
+  font-size: 16px;
+  line-height: 16px;
+  font-weight: 400;
+  padding: 10px 20px;
+  border-radius: var(--admin-radius-m);
+  border: 2px solid var(--admin-gray);
+  background: none;
+  outline: none;
+}
+.bracing-content-wrapper {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+
+  @media (max-width: 900px) {
+    flex-direction: column;
+
+    .bracing-inputs, .bracing-map {
+      width: 100%;
+      flex: none !important;
+    }
+  }
+}

@@ -1,0 +1,8 @@
+.loginForm {
+  width: 600px;
+  background-color: var(--admin-white);
+  color: var(--admin-black);
+}
+.loginForm__title {
+  text-align: center;
+} /*# sourceMappingURL=login-form.component.css.map */

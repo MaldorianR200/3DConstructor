@@ -1,0 +1,16 @@
+<app-stack gap="16px" direction="column">
+  <app-admin-search (searchChange)="onSearchChange($event)"></app-admin-search>
+
+  <div class="editList">
+    <article
+      class="editList__item"
+      *ngFor="let color of (colors$ | async) ?? [] | filterSearch: searchText : ['id', 'name']"
+      (click)="changeCur(color)"
+      [ngStyle]="getColorStyle(color)"
+    >
+      <!-- <img src="{{baseUrlStatic}}{{color.images[0].path}}"> -->
+      <p [appHighlight]="color.id!.toString()" [search]="searchText"></p>
+      <p [appHighlight]="color.name" [search]="searchText"></p>
+    </article>
+  </div>
+</app-stack>

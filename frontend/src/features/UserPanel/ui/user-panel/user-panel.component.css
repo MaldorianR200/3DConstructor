@@ -1,0 +1,9 @@
+.panel {
+  display: block;
+  width: var(--admin-width);
+  margin: 0 auto;
+}
+
+.list {
+  width: 100%;
+} /*# sourceMappingURL=user-panel.component.css.map */

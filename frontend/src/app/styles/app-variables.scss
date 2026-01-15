@@ -1,0 +1,52 @@
+@import 'src/shared/assets/fonts/AvenirNext/AvenirNext.scss';
+
+::ng-deep body {
+  --desktop-width: 1480px;
+  --tablet-width: 1024px;
+  --font-family-main: 'Jost';
+  --font-family-sub: 'AvenirNext';
+
+  --font-ss: 400 16px/24px var(--font-family-main);
+  --font-s: 400 18px/26px var(--font-family-main);
+  --font-m: 400 26px/33px var(--font-family-sub);
+  --font-l: 400 36px/50px var(--font-family-sub);
+  --font-xl: 400 60px/82px var(--font-family-sub);
+
+  --border-radius-s: 15px;
+  --border-radius-m: 30px;
+
+  --modal-close-button-m: 40px;
+  --modal-close-button-s: 48px;
+
+  --black-color: #000;
+  --dark-gray-color: #4c4b4e;
+  --gray-color: #8a8c91;
+  --white-color: #fff;
+
+  --white-text-color: #fff;
+  --light-text-color: #eee;
+  --gray-text-color: #989898;
+  --brown-text-color: #433323;
+  --black-text-color: #000;
+
+  --green-color: #2f6864;
+
+  --index-hederM: -1;
+  --index-header: 2;
+  --index-header-dropdown-overlay: 1;
+  --index-catalog-btn: 10;
+  --index-grid-news: 11;
+  --index-grid-new-model: 12;
+  --index-grid-new-model-close: 13;
+
+  --admin-index-select: 10;
+
+  font: var(--font-s);
+  background-color: var(--dark-gray-color);
+  color: var(--white-text-color);
+}
+
+::ng-deep .pageTitle {
+  font: var(--font-l);
+  color: var(--light-text-color);
+}

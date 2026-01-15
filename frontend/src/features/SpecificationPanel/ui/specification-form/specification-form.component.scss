@@ -1,0 +1,47 @@
+:host {
+  display: block;
+  width: 100%;
+}
+.selected-items {
+  width: 100%;
+}
+
+.selected-items {
+  .bulk-update {
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+    width: 50%;
+    button {
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 5px;
+      &:hover {
+        opacity: 0.7;
+        transition: 0.3s;
+      }
+    }
+  }
+
+  .table {
+    grid-template-columns: 40px 1fr 1fr 1fr 1fr; // Добавлен столбец для checkbox
+
+    & > * {
+      border: 1px solid var(--admin-gray);
+      padding: 5px;
+    }
+  }
+}
+
+app-specification-row {
+  width: 100%;
+}
+
+.color-square {
+  width: 16px;
+  height: 16px;
+  border-radius: 2px;
+  display: inline-block;
+  flex-shrink: 0;
+}

@@ -1,0 +1,17 @@
+.adminButton {
+  display: block;
+  width: -moz-fit-content;
+  width: fit-content;
+  padding: 10px 40px;
+  font-size: 16px;
+  background-color: var(--admin-main);
+  color: var(--admin-white);
+  border-radius: var(--admin-radius-m);
+  cursor: pointer;
+}
+.adminButton.gray {
+  background-color: var(--admin-gray);
+}
+.adminButton.red {
+  background-color: var(--admin-red);
+} /*# sourceMappingURL=admin-button.component.css.map */

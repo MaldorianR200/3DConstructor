@@ -1,0 +1,34 @@
+<app-stack direction="column" gap="8px">
+  <div class="fileLoader">
+    <input
+      class="fileLoader__input"
+      name="images"
+      type="file"
+      (change)="onFileSelected($event)"
+      multiple
+    />
+
+    <label for="images" class="fileLoader__btn">
+      <img src="/shared/assets/admin/download.png" alt="Выбрать файл" />
+      <span>Выберите несколько файлов</span>
+    </label>
+  </div>
+
+  <div class="errors" *ngIf="control.invalid && control.touched">
+    <div *ngIf="control.errors?.['required']">Это поле не может быть пустым.</div>
+  </div>
+
+  <app-stack direction="column" gap="8px">
+    <div
+      class="preview row"
+      *ngFor="let file of files$ | async; let i = index"
+      draggable="true"
+      (dragstart)="onDragStart($event, i)"
+      (drop)="onDrop($event, i)"
+      (dragover)="onDragOver($event)"
+    >
+      <p>{{ file.name }}</p>
+      <button type="button" class="preview__delete" (click)="removeFile(i)"></button>
+    </div>
+  </app-stack>
+</app-stack>

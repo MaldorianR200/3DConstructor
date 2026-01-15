@@ -1,0 +1,247 @@
+<app-stack direction="column" class="form">
+  <h1 class="adminTitle">
+    {{ isCreate ? "Создание" : "Редактирование" }} комбинированных материалов
+  </h1>
+
+  <app-admin-form [form]="combineMaterialForm" (handleSubmit)="submit()">
+    <app-stack direction="column" alignItems="end">
+      <app-admin-input
+        [control]="combineMaterialForm.get('name')!"
+        [props]="{
+          id: 'combineMaterialName',
+          type: 'text',
+          required: true,
+          placeholder: 'Введите название',
+        }"
+      ></app-admin-input>
+
+      <!-- Выбор материалов -->
+      <app-admin-input
+        [control]="combineMaterialForm.get('materials')!"
+        [props]="{
+          id: 'combineMaterials',
+          type: 'select',
+          required: false,
+          placeholder: 'Выберите материалы',
+          multiple: true,
+        }"
+        [options]="materials"
+        optionLabel="label"
+        optionValue="value"
+      ></app-admin-input>
+
+      <!-- Блоки выбранных материалов с операциями -->
+      <app-stack direction="column" class="selected-materials" *ngIf="getMaterialsArray()?.controls?.length > 0">
+
+        <!-- Контейнер для каждого материала -->
+        <app-stack
+          direction="column"
+          class="material-block"
+          border="table"
+          *ngFor="let materialGroup of getMaterialsArray().controls; let materialIndex = index"
+        >
+          <!-- Заголовок материала -->
+          <app-stack direction="row" class="material-header" alignItems="center" gap="10px">
+            <h3>{{ getMaterialLabel(materialGroup.get('materialId')?.value) }}</h3>
+
+            <!-- Кнопка добавить экземпляр -->
+            <app-admin-button
+              (handleClick)="addMaterialInstance(materialIndex)"
+              size="small"
+            >
+              + Добавить ещё
+            </app-admin-button>
+
+            <app-admin-button
+              (handleClick)="openDeleteMaterialModal(materialIndex)"
+              variant="red"
+              size="small"
+            >
+              Удалить все
+            </app-admin-button>
+          </app-stack>
+
+          <!-- Блоки операций для каждого экземпляра материала -->
+          <app-stack
+            direction="column"
+            class="material-instance"
+            *ngFor="let instance of getMaterialInstances(materialIndex); let instanceIndex = index"
+          >
+            <app-stack direction="row" class="instance-header" alignItems="center" gap="10px">
+              <h4>Экземпляр {{ instanceIndex + 1 }}</h4>
+
+              <!-- Кнопка удалить экземпляр -->
+              <app-admin-button
+                (handleClick)="openDeleteInstanceModal(materialIndex, instanceIndex)"
+                variant="red"
+                size="small"
+                *ngIf="getMaterialInstances(materialIndex).length > 1"
+              >
+                Удалить
+              </app-admin-button>
+            </app-stack>
+
+            <!-- Выбор операций для конкретного экземпляра материала -->
+            <app-admin-input
+              [control]="getOperationsControl(materialIndex, instanceIndex)!"
+              [props]="{
+          id: 'operations_' + materialIndex + '_' + instanceIndex,
+          type: 'select',
+          required: false,
+          placeholder: 'Выберите операции',
+          multiple: true,
+        }"
+              [options]="operationsForSelect"
+              optionLabel="label"
+              optionValue="value"
+            ></app-admin-input>
+
+            <!-- Таблица операций для экземпляра -->
+            <app-stack
+              direction="column"
+              class="selected-operations"
+              *ngIf="getInstanceOperationsArray(materialIndex, instanceIndex)?.controls?.length > 0"
+            >
+              <!-- Шапка таблицы -->
+              <app-header-table grid="other-grid" style="width: 100%"></app-header-table>
+
+              <!-- Строки таблицы операций -->
+              <ng-container *ngFor="let operationControl of getInstanceOperationsArray(materialIndex, instanceIndex).controls; let operationIndex = index">
+                <app-specification-row grid="grid">
+                  <span></span>
+                  <span>{{ getOperationLabel(operationControl.get('typeId')?.value) }}</span>
+                  <app-admin-input
+                    [control]="operationControl.get('price')!"
+                    [props]="{
+                id: 'operationPrice_' + materialIndex + '_' + instanceIndex + '_' + operationIndex,
+                type: 'number',
+                required: true,
+                placeholder: 'Себестоимость (₽/м²)',
+              }"
+                  ></app-admin-input>
+
+                  <app-admin-input
+                    [control]="operationControl.get('count')!"
+                    [props]="{
+                id: 'operationCount_' + materialIndex + '_' + instanceIndex + '_' + operationIndex,
+                type: 'number',
+                required: true,
+                placeholder: 'Количество повторений',
+              }"
+                  ></app-admin-input>
+                  <span class="operation-total">
+              {{
+                      ((operationControl.get('price')?.value || 0) * (operationControl.get('count')?.value || 0))
+                        | number:'1.0-3'
+                    }} ₽/м²
+            </span>
+                </app-specification-row>
+              </ng-container>
+            </app-stack>
+          </app-stack>
+
+          <!-- Итого по всем экземплярам материала -->
+          <app-stack direction="row" class="material-total" *ngIf="calculateMaterialTotal(materialIndex) > 0">
+            <span><strong>Итого по всем экземплярам {{ getMaterialLabel(materialGroup.get('materialId')?.value) }}:</strong></span>
+            <span class="total-amount"><strong>{{ calculateMaterialTotal(materialIndex) | number:'1.0-3' }} ₽/м²</strong></span>
+          </app-stack>
+        </app-stack>
+
+        <!-- Общая стоимость -->
+        <app-stack direction="row" class="combined-total" *ngIf="calculateTotalCost() > 0">
+          <span><strong>Общая стоимость комбинированного материала(₽/м²):</strong></span>
+          <span class="total-amount"><strong>{{ calculateTotalCost() | number:'1.0-3' }}</strong></span>
+        </app-stack>
+      </app-stack>
+
+      <app-admin-input
+        [control]="combineMaterialForm.get('active')!"
+        [props]="{
+          id: 'combineMaterialActive',
+          type: 'select',
+          required: true,
+          placeholder: 'Активно?',
+          optionsBool: true,
+        }"
+      ></app-admin-input>
+
+      <app-admin-input
+        *ngIf="combineMaterialForm.get('active')?.value === false"
+        [control]="combineMaterialForm.get('comment')!"
+        [props]="{
+          id: 'combineMaterialComment',
+          type: 'text',
+          required: false,
+          placeholder: 'Введите комментарий',
+        }"
+      ></app-admin-input>
+
+      <app-stack>
+        <app-admin-button
+          *ngIf="!isCreate"
+          (handleClick)="deleteChangeOpen()"
+          variant="red"
+        >Удалить</app-admin-button
+        >
+
+        <app-admin-button type="submit">{{
+            isCreate ? "Создать" : "Редактировать"
+          }}</app-admin-button>
+      </app-stack>
+    </app-stack>
+  </app-admin-form>
+</app-stack>
+
+<!-- Модалка удаления -->
+<app-admin-modal
+  [isOpen]="isOpenDelete"
+  (handleChangeOpen)="deleteChangeOpen()"
+>
+  <app-stack direction="column" alignItems="center">
+    <h4 class="adminTitle">Вы действительно хотите удалить?</h4>
+
+    <app-stack>
+      <app-admin-button (handleClick)="deleteChangeOpen()" variant="gray"
+      >Отмена</app-admin-button
+      >
+      <app-admin-button (handleClick)="delete()" variant="red"
+      >Удалить</app-admin-button
+      >
+    </app-stack>
+  </app-stack>
+</app-admin-modal>
+
+<app-admin-modal
+  [isOpen]="isOpenDeleteMaterial"
+  (handleChangeOpen)="closeDeleteMaterialModal()"
+>
+  <app-stack direction="column" alignItems="center">
+    <h4 class="adminTitle">Вы действительно хотите удалить материал со всеми экземплярами?</h4>
+    <app-stack>
+      <app-admin-button (handleClick)="closeDeleteMaterialModal()" variant="gray">
+        Отмена
+      </app-admin-button>
+      <app-admin-button (handleClick)="confirmDeleteMaterial()" variant="red">
+        Удалить
+      </app-admin-button>
+    </app-stack>
+  </app-stack>
+</app-admin-modal>
+
+<!-- Модалка подтверждения удаления экземпляра -->
+<app-admin-modal
+  [isOpen]="isOpenDeleteInstance"
+  (handleChangeOpen)="closeDeleteInstanceModal()"
+>
+  <app-stack direction="column" alignItems="center">
+    <h4 class="adminTitle">Вы действительно хотите удалить этот экземпляр материала?</h4>
+    <app-stack>
+      <app-admin-button (handleClick)="closeDeleteInstanceModal()" variant="gray">
+        Отмена
+      </app-admin-button>
+      <app-admin-button (handleClick)="confirmDeleteInstance()" variant="red">
+        Удалить
+      </app-admin-button>
+    </app-stack>
+  </app-stack>
+</app-admin-modal>

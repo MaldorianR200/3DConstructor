@@ -1,0 +1,21 @@
+<div class="stack" [ngClass]="grid">
+  <ng-container *ngIf="grid === 'grid'">
+    <div></div>
+    <div>Название</div>
+    <div>Коэффициент</div>
+    <div>Себестоимость</div>
+    <div>Итоговая стоимость</div>
+  </ng-container>
+  <ng-container *ngIf="grid === 'short-grid'">
+    <div></div>
+    <div>Название</div>
+    <div>Коэффициент</div>
+  </ng-container>
+  <ng-container *ngIf="grid === 'other-grid'">
+    <div></div>
+    <div>Название</div>
+    <div>Себестоимость</div>
+    <div>Количество операций</div>
+    <div>Итоговая стоимость</div>
+  </ng-container>
+</div>

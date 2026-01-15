@@ -1,0 +1,13 @@
+<div
+  class="stack"
+  [ngClass]="[
+    direction === 'row' ? 'row' : 'column',
+    wrap === 'wrap' ? 'wrap' : 'nowrap',
+    border === 'table' ? 'table' : '',
+  ]"
+  [style.justify-content]="justifyContent"
+  [style.align-items]="alignItems"
+  [style.gap]="gap"
+>
+  <ng-content></ng-content>
+</div>

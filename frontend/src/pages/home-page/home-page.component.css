@@ -1,0 +1,57 @@
+/* p {
+  font-size: 22px;
+  line-height: 26px;
+}
+.avenir {
+  font-family: var(--font-family-sub);
+}
+.w100 {
+  font-weight: 100;
+}
+.w200 {
+  font-weight: 200;
+}
+.w300 {
+  font-weight: 300;
+}
+.w400 {
+  font-weight: 400;
+}
+.w500 {
+  font-weight: 500;
+}
+.w600 {
+  font-weight: 600;
+}
+.w700 {
+  font-weight: 700;
+}
+.w800 {
+  font-weight: 800;
+}
+.w900 {
+  font-weight: 900;
+}
+
+.italic {
+  font-style: italic;
+} */
+.font-xxl {
+  font: var(--font-xxl);
+}
+
+.font-xl {
+  font: var(--font-xl);
+}
+
+.font-l {
+  font: var(--font-l);
+}
+
+.font-m {
+  font: var(--font-m);
+}
+
+.font-s {
+  font: var(--font-s);
+} /*# sourceMappingURL=home-page.component.css.map */

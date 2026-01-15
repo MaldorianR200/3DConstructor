@@ -1,0 +1,87 @@
+<main class="content">
+  <div class="container">
+    <div class="container__about">
+      <h3 class="title">О компании</h3>
+
+      <ng-container *ngIf="isMobileVersion; else tabletOrDesktopText">
+        <p class="text">
+          Санди — ведущий производитель высококачественной мебели, которая сочетает в себе
+          современный дизайн, функциональность и долговечность.
+        </p>
+        <p class="text">
+          Мы гордимся тем, что предлагаем широкий ассортимент мебели для дома и офиса. Каждый
+          предмет мебели, созданный нашими мастерами, отражает наше стремление к совершенству и
+          внимание к деталям.
+        </p>
+      </ng-container>
+
+      <ng-template #tabletOrDesktopText>
+        <ng-container *ngIf="isTabletVersion; else defaultText">
+          <p class="text">
+            Санди — один из ведущих производителей мебели, где современный дизайн идеально
+            сочетается с функциональностью и долговечностью. Мы уже более 15 лет на рынке и за это
+            время заслужили доверие тысяч клиентов по всей стране. В нашем ассортименте найдётся
+            всё: от стильных кроватей до удобных шкафов и столов.
+          </p>
+        </ng-container>
+        <ng-template #defaultText>
+          <p class="text">
+            Санди — ведущий производитель высококачественной мебели, которая сочетает в себе
+            современный дизайн, функциональность и долговечность. Наша компания существует на рынке
+            более 15 лет, и за это время мы завоевали доверие тысяч клиентов по всей стране.
+          </p>
+          <p class="text">
+            Мы гордимся тем, что предлагаем широкий ассортимент мебели для дома и офиса. В нашем
+            каталоге вы найдёте всё: от стильных и удобных кроватей до функциональных шкафов и
+            столов. Каждый предмет мебели, созданный нашими мастерами, отражает наше стремление к
+            совершенству и внимание к деталям.
+          </p>
+        </ng-template>
+      </ng-template>
+
+      <a class="link" [routerLink]="['about']" routerLinkActive="active">Узнать больше</a>
+
+      <div class="info">
+        <div class="info__item">
+          <p class="value">> 18</p>
+          <p class="label">лет на рынке</p>
+        </div>
+
+        <div class="info__item">
+          <p class="value">88 745</p>
+          <p class="label">товарных единиц</p>
+        </div>
+      </div>
+
+      <div class="info">
+        <div class="info__item">
+          <p class="value">> 52 204</p>
+          <p class="label">довольных клиентов</p>
+        </div>
+
+        <div class="info__item">
+          <p class="value">1</p>
+          <p class="label">чёрная кошка</p>
+        </div>
+      </div>
+    </div>
+    <div class="container__video">
+      <video #videoElement muted autoplay loop>
+        <source type="video/mp4" loop src="../../../shared/assets/video/testVideo1.mp4" />
+        <source type="video/ogv" loop src="../../../shared/assets/video/testVideo1.ogv" />
+        <p>Ваш браузер не поддерживает встроенные видео.</p>
+      </video>
+      <button class="sound" (click)="toggleSound()">
+        <img
+          class="image"
+          [src]="
+            !isMuted
+              ? '../../../shared/assets/icons/soundD.png'
+              : '../../../shared/assets/icons/soundDMute.png'
+          "
+          alt="Sound Toggle"
+        />
+      </button>
+    </div>
+  </div>
+</main>

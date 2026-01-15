@@ -1,0 +1,12 @@
+.adminToAdmin {
+  position: fixed;
+  top: 0;
+  right: 0;
+  background-color: var(--admin-white);
+  border-radius: 0 0 0 var(--admin-radius-m);
+  text-decoration: underline;
+  text-transform: uppercase;
+  color: var(--admin-black);
+  z-index: var(--admin-index-to-admin);
+  padding: 5px 20px;
+}

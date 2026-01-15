@@ -1,0 +1,31 @@
+<div class="grid">
+  <div class="news">
+    <!-- <div class="grid-new" *ngFor="let neww of news$ | async; let i = index"> -->
+    <div
+      class="new"
+      *ngFor="let neww of (news$ | async)?.slice(0, -1); let i = index"
+      (click)="openModal(neww)"
+    >
+      <img class="image" [src]="'http://localhost:9000' + neww.images[0].path" alt="grid-img" />
+      <p class="title">{{ neww.name }}</p>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal" [ngClass]="{ 'is-active': isModalOpen }">
+  <div class="modal-content">
+    <swiper-container class="swiper-container" [config]="swiperConfig">
+      <swiper-slide class="swiper-slide" *ngFor="let img of selectedNew?.images; let i = index">
+        <img [src]="'http://localhost:9000' + img.path" alt="modal-img" class="modal-image" />
+        <div class="modal-title">{{ selectedNew?.name }}</div>
+        <div class="modal-description">{{ selectedNew?.description }}</div>
+      </swiper-slide>
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+    </swiper-container>
+    <button class="modal-close is-large" aria-label="close" (click)="closeModal()">
+      <img src="../../../shared/assets/icons/Exclude.png" alt="close-icon" class="close-icon" />
+    </button>
+  </div>
+</div>

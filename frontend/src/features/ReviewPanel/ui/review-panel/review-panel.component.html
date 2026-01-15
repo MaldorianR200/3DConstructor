@@ -1,0 +1,14 @@
+<app-stack class="panel" direction="column" alignItems="center" gap="32px">
+  <app-admin-change-action [isEdit]="isEdit"></app-admin-change-action>
+
+  <app-review-form
+    *ngIf="!isEdit || curEditReview$.value"
+    [review$]="curEditReview$"
+  ></app-review-form>
+
+  <app-review-edit-list
+    *ngIf="isEdit"
+    [reviews$]="reviews$"
+    [curEditReview$]="curEditReview$"
+  ></app-review-edit-list>
+</app-stack>

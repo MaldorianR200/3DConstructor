@@ -1,0 +1,72 @@
+:host {
+  width: 100%;
+}
+
+.container {
+  width: 100%;
+  position: relative;
+  z-index: var(--admin-index-input);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.input {
+  width: 100%;
+  font-size: 16px;
+  line-height: 16px;
+  font-weight: 400;
+  padding: 10px 20px;
+  border-radius: var(--admin-radius-m);
+  border: 2px solid var(--admin-gray);
+  background: none;
+  outline: none;
+}
+.input:focus {
+  outline: 0;
+  border-color: var(--admin-main);
+}
+.input.textarea {
+  min-width: 100%;
+  max-width: 100%;
+  height: 120px;
+}
+
+.label {
+  font-size: 16px;
+  line-height: 16px;
+  font-weight: 400;
+  position: absolute;
+  display: block;
+  z-index: -1;
+  top: 12px;
+  left: 15px;
+  color: var(--admin-gray);
+  transition: all 0.2s ease-in-out;
+}
+.label.focused {
+  z-index: 1;
+  font-size: 14px;
+  top: -10px;
+  background: var(--admin-bg-color);
+  padding: 0 6px;
+  left: 10px;
+  color: var(--admin-main);
+}
+
+.errors {
+  color: var(--admin-red);
+}
+
+.changeShowPswd {
+  position: absolute;
+  top: 12px;
+  right: 10px;
+  width: 18px;
+  height: 18px;
+  background: url(/shared/assets/admin/show.png) center/contain no-repeat;
+  cursor: pointer;
+}
+.changeShowPswd.open {
+  background-image: url(/shared/assets/admin/hidden.png);
+} /*# sourceMappingURL=admin-input.component.css.map */

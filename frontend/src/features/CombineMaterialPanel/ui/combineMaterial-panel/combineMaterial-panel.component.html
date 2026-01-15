@@ -1,0 +1,14 @@
+<app-stack class="panel" direction="column" alignItems="center" gap="32px">
+  <app-admin-change-action [isEdit]="isEdit"></app-admin-change-action>
+
+  <app-combineMaterial-form
+    *ngIf="!isEdit || curEditCombineMaterial$.value"
+    [combineMaterial$]="curEditCombineMaterial$"
+  ></app-combineMaterial-form>
+
+  <app-combineMaterial-edit-list
+    *ngIf="isEdit"
+    [combineMaterials$]="combineMaterials$"
+    [curEditCombineMaterial$]="curEditCombineMaterial$"
+  ></app-combineMaterial-edit-list>
+</app-stack>

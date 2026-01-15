@@ -1,0 +1,82 @@
+<app-stack direction="column" class="form">
+  <h1 class="adminTitle">{{ isCreate ? 'Создание' : 'Редактирование' }} цветов</h1>
+
+  <app-admin-form [form]="colorForm" (handleSubmit)="submit()">
+    <app-stack direction="column" alignItems="end">
+      <app-admin-input
+        [control]="colorForm.get('name')!"
+        [props]="{
+          id: 'colorName',
+          type: 'text',
+          required: true,
+          placeholder: 'Введите название',
+        }"
+      ></app-admin-input>
+      <app-admin-input
+        [control]="colorForm.get('hex')!"
+        [props]="{
+          id: 'colorHex',
+          type: 'text',
+          required: true,
+          placeholder: 'Введите hex цвета',
+        }"
+      ></app-admin-input>
+
+      <app-admin-input
+        [control]="colorForm.get('typeCategoryId')!"
+        [props]="{
+          id: 'typeCategoryId',
+          type: 'select',
+          required: true,
+          placeholder: 'Выберите категорию цвета',
+          options: colorCategories,
+        }"
+        [options]="colorCategories"
+        optionValue="value"
+        optionLabel="label"
+      ></app-admin-input>
+
+      <app-admin-input
+        [control]="colorForm.get('active')!"
+        [props]="{
+          id: 'colorCategoryActive',
+          type: 'select',
+          placeholder: 'Активно?',
+          optionsBool: true,
+        }"
+      ></app-admin-input>
+
+      <app-admin-input
+        *ngIf="colorForm.get('active')?.value === false"
+        [control]="colorForm.get('comment')!"
+        [props]="{
+          id: 'colorComment',
+          type: 'text',
+          required: false,
+          placeholder: 'Введите комментарий',
+        }"
+      ></app-admin-input>
+      <app-stack>
+        <app-admin-button *ngIf="!isCreate" (handleClick)="deleteChangeOpen()" variant="red">
+          Удалить
+        </app-admin-button>
+
+        <app-admin-button type="submit">
+          {{ isCreate ? 'Создать' : 'Редактировать' }}
+        </app-admin-button>
+      </app-stack>
+    </app-stack>
+  </app-admin-form>
+</app-stack>
+
+<!-- Модалка удаления -->
+<app-admin-modal [isOpen]="isOpenDelete" (handleChangeOpen)="deleteChangeOpen()">
+  <app-stack direction="column" alignItems="center">
+    <h4 class="adminTitle">Вы дествительно хотите удалить?</h4>
+
+    <app-stack>
+      <app-admin-button (handleClick)="deleteChangeOpen()" variant="gray">Отмена</app-admin-button>
+      <app-admin-button (handleClick)="delete()" variant="red">Удалить</app-admin-button>
+    </app-stack>
+  </app-stack>
+</app-admin-modal>

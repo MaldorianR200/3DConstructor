@@ -1,0 +1,10 @@
+.editListItem {
+  list-style: decimal;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+}
+.editListItem:hover {
+  opacity: 0.8;
+  transform: scale(0.95);
+} /*# sourceMappingURL=users-edit-list.component.css.map */

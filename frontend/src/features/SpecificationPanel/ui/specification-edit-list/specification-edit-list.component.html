@@ -1,0 +1,26 @@
+<app-stack gap="16px" direction="column">
+  <app-admin-search (searchChange)="onSearchChange($event)"></app-admin-search>
+
+  <div class="editList">
+    <article
+      class="editList__item"
+      *ngFor="
+        let specification of (specificationsWithNames$ | async) ?? []
+        | filterSearch: searchText : ['id', 'series', 'typeProductName', 'typeExecutionName']
+      "
+      (click)="changeCur(specification)"
+    >
+      <p [appHighlight]="specification.id!.toString()" [search]="searchText">
+      </p>
+
+      <p [appHighlight]="specification.typeProductName" [search]="searchText">
+      </p>
+
+      <p [appHighlight]="specification.typeExecutionName" [search]="searchText">
+      </p>
+
+      <p [appHighlight]="specification.series" [search]="searchText">
+      </p>
+    </article>
+  </div>
+</app-stack>

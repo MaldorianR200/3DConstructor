@@ -1,0 +1,110 @@
+<div class="container">
+  <ng-container *ngIf="!props.textarea; else textareaBlock">
+    <ng-container *ngIf="props.type !== 'select'; else selectBlock">
+      <input
+        class="input"
+        [id]="props.id"
+        [formControl]="formControl"
+        [type]="props.type || 'text'"
+        [required]="!!props.required"
+        [attr.minlength]="props.minLength"
+        [attr.maxlength]="props.maxLength"
+        (focus)="onFocus()"
+        (blur)="onBlur()"
+      />
+    </ng-container>
+    <ng-template #selectBlock>
+      <ng-container *ngIf="!props.multiple; else multipleSelectBlock">
+        <select
+          class="input"
+          [id]="props.id"
+          [formControl]="formControl"
+          [required]="!!props.required"
+          (focus)="onFocus()"
+          (blur)="onBlur()"
+        >
+          <option value="" disabled>{{ props.placeholder }}</option>
+          <option *ngFor="let option of formattedOptions" [ngValue]="option[optionValue]">
+            {{ option[optionLabel] }}
+          </option>
+        </select>
+      </ng-container>
+      <ng-template #multipleSelectBlock>
+        <div class="dropdown" [ngClass]="{ open: isOpen }">
+          <div class="dropdown-toggle" (click)="toggleDropdown()">
+            <span *ngIf="formControl.value?.length > 0; else placeholder">
+              {{ formControl.value.length }} выбрано
+            </span>
+            <ng-template #placeholder>
+              {{ props.placeholder }}
+            </ng-template>
+          </div>
+          <div class="dropdown-menu" *ngIf="isOpen">
+            <div class="dropdown-item" *ngFor="let option of formattedOptions">
+              <label>
+                <input
+                  type="checkbox"
+                  [checked]="isOptionSelected(option[optionValue])"
+                  (change)="toggleOption(option[optionValue])"
+                />
+                {{ option[optionLabel] }}
+              </label>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </ng-template>
+  </ng-container>
+
+  <ng-template #checkboxBlock>
+    <label class="checkbox-label">
+      <input type="checkbox" [id]="props.id" [formControl]="formControl" checked />
+      {{ props.placeholder }}
+    </label>
+    <span *ngIf="props.labelText">{{ props.labelText }}</span>
+  </ng-template>
+
+  <ng-template #textareaBlock>
+    <textarea
+      class="input textarea"
+      [id]="props.id"
+      [formControl]="formControl"
+      [required]="!!props.required"
+      [attr.minlength]="props.minLength"
+      [attr.maxlength]="props.maxLength"
+      (focus)="onFocus()"
+      (blur)="onBlur()"
+    ></textarea>
+  </ng-template>
+
+  <label
+    class="label"
+    [for]="props.id"
+    [ngClass]="{ focused: isFocused || formControl.value || hasValue() }"
+  >
+    {{ props.placeholder }}
+  </label>
+
+  <button
+    type="button"
+    *ngIf="isPswd"
+    class="changeShowPswd"
+    (click)="changeShowPswd()"
+    [ngClass]="{ open: props.type == 'text' }"
+  ></button>
+
+  <div class="errors" *ngIf="formControl.invalid && formControl.touched">
+    <div *ngIf="formControl.errors?.['required']">Это поле не может быть пустым.</div>
+    <div *ngIf="formControl.errors?.['minlength']">
+      Введите минимум {{ props.minLength }} символов
+    </div>
+    <div *ngIf="formControl.errors?.['maxlength']">Максимум {{ props.maxLength }} символов.</div>
+    <div *ngIf="formControl.errors?.['pattern'] && props.type == 'email'">
+      Введите корректный e-mail.
+    </div>
+    <div *ngIf="formControl.errors?.['pattern'] && props.type == 'phone'">
+      Введите корректный номер телефона.
+    </div>
+    <div *ngIf="formControl.errors?.['min']">Невозможно указать отрицательное значение</div>
+  </div>
+</div>

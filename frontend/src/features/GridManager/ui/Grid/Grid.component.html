@@ -1,0 +1,32 @@
+<div
+  class="grid grid{{ type }}"
+  [ngStyle]="{
+    '--count-columns': gridSize.columns,
+    '--count-rows': gridSize.rows,
+  }"
+  (mousemove)="moving($event)"
+>
+  <ng-container *ngFor="let cell of gridArray; let i = index">
+    <app-grid-item
+      *ngIf="gridItems && gridItems[i] as gridItem"
+      [gridItem]="gridItem"
+      [type]="type"
+      [entities$]="entities$"
+      [gridId]="gridId"
+      (startDragging)="startDragging(gridItem, $event)"
+      (startResizing)="startResizing($event)"
+      (updateGridItem)="updateGridItem($event)"
+      (dragging)="onDragging($event)"
+    ></app-grid-item>
+
+    <div *ngIf="!(gridItems && gridItems[i] && gridItems[i][type])" class="grid__item"></div>
+  </ng-container>
+</div>
+<div class="btn">
+  <button *ngIf="gridSize && gridSize.rows > visibleRows" (click)="toggleShowMore()">
+    {{ showMore ? 'Скрыть' : 'Показать ещё' }}
+  </button>
+  <!-- <button *ngIf="gridSize.rows > 12" class="showMore" (click)="toggleShowMore()">
+    {{ showMore ? 'Скрыть' : 'Показать ещё' }}
+  </button> -->
+</div>

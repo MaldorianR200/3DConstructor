@@ -1,0 +1,9 @@
+<div class="host" #host (pointerdown)="onPointerDown($event)"></div>
+
+<!-- Кнопки управления (видны, когда выбран слой) -->
+<div class="mobile-controls" [class.active]="selected">
+  <button class="btn-turn cw" (pointerdown)="$event.stopPropagation(); turnSelected(1)">↻</button>
+  <button class="btn-turn ccw" (pointerdown)="$event.stopPropagation(); turnSelected(-1)">↺</button>
+  <button class="btn-close" (pointerdown)="$event.stopPropagation(); deselect()">✕</button>
+</div>
+

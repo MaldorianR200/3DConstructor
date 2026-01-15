@@ -1,0 +1,83 @@
+.widget {
+  width: 300px;
+  padding: 30px;
+  background-color: var(--admin-widget-color);
+  border-radius: var(--admin-radius-l);
+  color: var(--admin-white);
+  position: relative;
+  overflow: hidden;
+
+  &__title {
+    width: 100%;
+    font-size: 24px;
+    color: var(--admin-white);
+    font-weight: 400;
+  }
+
+  &__icon {
+    position: relative;
+    left: 0;
+    transition: all 0.3s ease-in-out;
+
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+  }
+
+  &__container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: end;
+    gap: 30px;
+  }
+
+  &__count {
+    font-size: 32px;
+    font-weight: 400;
+    letter-spacing: -2px;
+  }
+
+  &__link {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: all 0.3s ease-in-out;
+  }
+
+  &__sub {
+    position: absolute;
+    z-index: 3;
+    top: 44%;
+    left: -100%;
+    transition: all 0.3s ease-in-out;
+  }
+
+  &__text {
+    color: var(--admin-white);
+    font-size: 18px;
+    text-decoration: none;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.8;
+      text-decoration: underline;
+    }
+  }
+
+  &:hover {
+    .widget__sub {
+      left: 30px;
+    }
+    .widget__icon {
+      left: -100%;
+    }
+    .widget__link {
+      background-color: var(--admin-overlay);
+    }
+  }
+}

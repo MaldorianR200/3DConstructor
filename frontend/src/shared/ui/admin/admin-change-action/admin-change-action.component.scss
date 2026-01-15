@@ -1,0 +1,22 @@
+:host {
+  width: 100%;
+}
+
+.changeAction {
+  width: 100%;
+  display: flex;
+  gap: 40px;
+
+  a {
+    color: var(--admin-black);
+    font-weight: 600;
+    font-size: 20px;
+    text-decoration: none;
+    opacity: 0.4;
+
+    &.active {
+      opacity: 0.8;
+      border-bottom: 3px solid var(--admin-black);
+    }
+  }
+}

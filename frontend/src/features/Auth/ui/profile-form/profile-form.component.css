@@ -1,0 +1,9 @@
+.form {
+  width: 800px;
+  margin: 0 auto;
+}
+.form__title {
+  font-size: 16px;
+  font-weight: 400;
+  margin: 0 0 10px 0;
+} /*# sourceMappingURL=profile-form.component.css.map */

@@ -1,0 +1,9 @@
+.loginForm {
+  width: 600px;
+  background-color: var(--admin-white);
+  color: var(--admin-black);
+
+  &__title {
+    text-align: center;
+  }
+}

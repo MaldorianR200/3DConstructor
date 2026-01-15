@@ -1,0 +1,11 @@
+<app-stack class="panel" direction="column" alignItems="center" gap="32px">
+  <app-admin-change-action [isEdit]="isEdit"></app-admin-change-action>
+
+  <app-color-form *ngIf="!isEdit || curEditColor$.value" [color$]="curEditColor$"></app-color-form>
+
+  <app-color-edit-list
+    *ngIf="isEdit"
+    [colors$]="colors$"
+    [curEditColor$]="curEditColor$"
+  ></app-color-edit-list>
+</app-stack>

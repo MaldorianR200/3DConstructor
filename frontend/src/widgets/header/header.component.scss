@@ -1,0 +1,267 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  // height: 100vh;
+  padding: 18px calc((100% - var(--desktop-width)) / 2);
+  background-color: rgba(255, 255, 255, 0.1);
+  z-index: var(--index-header);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  justify-content: space-between;
+  gap: 40px;
+  transition: all 0.5s ease-in-out &__nav {
+    flex: 1;
+    // display: flex;
+    // flex-direction: column;
+    gap: 20px;
+    margin-top: 9px;
+  }
+
+  &--open {
+    max-height: 500px; // adjust this value as needed
+  }
+
+  &__container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    margin-bottom: 15px;
+
+    max-height: 30px;
+    transition: all 0.3s ease-in-out;
+    &.hide {
+      opacity: 0;
+      max-height: 0;
+    }
+  }
+
+  &__item {
+    font-size: 16px;
+    line-height: 26px;
+    color: var(--white-color);
+    text-decoration: none;
+    position: relative;
+    background: none;
+
+    &.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 15px;
+      height: 1px;
+      background-color: var(--white-color);
+    }
+  }
+
+  &__search {
+    width: 140px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--white-color);
+
+    button {
+      width: 20px;
+      aspect-ratio: 1;
+      background: url(/shared/assets/icons/search.svg) center/contain no-repeat;
+    }
+
+    input {
+      width: 100%;
+      padding: 0;
+      color: var(--white-color);
+      background: none;
+      border: none;
+      outline: none;
+    }
+  }
+}
+
+.header-mobile {
+  display: none;
+}
+
+@media (max-width: 1080px) {
+  .header {
+    padding: 18px 10px;
+
+    &__container {
+      justify-content: space-between; // Выравнивание элементов по краям
+      gap: 10px;
+    }
+
+    &__item {
+      font-size: 14px; // Уменьшение размера шрифта для элементов навигации
+      // line-height: 20px; // Уменьшение межстрочного интервала
+    }
+
+    &__search {
+      margin: 0 20px; // Добавьте отступы для поискового блока
+      width: 120px; // Уменьшение ширины поискового поля
+    }
+  }
+}
+
+// &__overlay {
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   width: 100%;
+//   height: 100vh;
+//   background-image: url('/shared/assets/images/home-bg.jpg');
+//   background-size: cover;
+//   background-position: center;
+//   transform: translateY(-100%);
+//   transition: transform 0.75s ease-in-out;
+//   z-index: var(--index-hederM);
+
+//   &--visible {
+//     transform: translateY(0);
+//     filter: blur(3px);
+//   }
+// }
+
+@media screen and (max-width: 480px) {
+  .header {
+    display: none;
+  }
+
+  .header-mobile {
+    display: block;
+    position: fixed;
+    width: 100%;
+    padding: 0;
+    z-index: var(--index-header);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+
+    &__wrapper {
+      padding: 15px 20px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+
+    &__logo {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex: 1;
+    }
+
+    &__menuBtn {
+      background: none;
+      border: none;
+      padding: 0;
+      -webkit-transition: all 0.25s;
+      z-index: 10;
+      cursor: pointer;
+      position: relative;
+      right: 20px;
+
+      .icon {
+        -webkit-transition: all 0.25s;
+        width: 30px;
+        height: 2px;
+        background-color: white;
+        position: absolute;
+
+        &:before,
+        &:after {
+          content: '';
+          -webkit-transition: all 0.25s;
+          width: 30px;
+          height: 2px;
+          right: 0;
+          background: white;
+          position: absolute;
+        }
+
+        &:before {
+          top: -10px;
+        }
+        &:after {
+          top: 10px;
+        }
+      }
+      &:hover {
+        .icon {
+          &:before {
+            top: -12px;
+          }
+          &:after {
+            top: 12px;
+          }
+        }
+      }
+      &.active {
+        .icon {
+          -webkit-transform: rotate(180deg);
+          background-color: transparent;
+
+          &:before,
+          &:after {
+            top: 0;
+          }
+          &:before {
+            -webkit-transform: rotate(45deg);
+          }
+          &:after {
+            -webkit-transform: rotate(-45deg);
+          }
+        }
+      }
+    }
+
+    &__dropDownMenu {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-in-out;
+      // transition: max-height 0.3s ease-in-out, background-position 0.3s ease-in-out;
+      height: 200vh; /* Высота на всю видимую область */
+      z-index: var(--index-header); /* Уровень слоя */
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(3px);
+    }
+
+    &__dropDownMenu.open {
+      max-height: 200vw;
+    }
+
+    &__nav {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+
+      padding: 20px;
+
+      a {
+        font-size: 16px;
+
+        line-height: 23.53px;
+      }
+    }
+
+    &__item {
+      font: var(--font-ss);
+      line-height: 24px;
+      color: var(--white-color); // Цвет текст
+      overflow: hidden;
+      font-size: 18px;
+      text-decoration: none;
+    }
+  }
+}

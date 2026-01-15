@@ -1,0 +1,14 @@
+<app-stack class="panel" direction="column" alignItems="center" gap="32px">
+  <app-admin-change-action [isEdit]="isEdit"></app-admin-change-action>
+
+  <app-series-form
+    *ngIf="!isEdit || curEditSeries$.value"
+    [series$]="curEditSeries$"
+  ></app-series-form>
+
+  <app-series-edit-list
+    *ngIf="isEdit"
+    [seriess$]="seriess$"
+    [curEditSeries$]="curEditSeries$"
+  ></app-series-edit-list>
+</app-stack>

@@ -1,0 +1,112 @@
+<!-- <app-grid-entities *ngIf="(entities$ | async).length" [entities$]="entities$" [grid]="grid"></app-grid-entities>
+
+<app-grid-settings></app-grid-settings>
+
+<swiper-container
+  class="grids"
+  init="false"
+  slides-per-view="auto"
+  space-between="100"
+  centered-slides="true"
+  free-mode="true"
+  scrollbar-hide="true"
+  grab-cursor="true"
+>
+  <swiper-slide class="grids__slide">
+    <app-grid-component
+      [gridId]="grid.id"
+      [gridItems]="grid.gridItems"
+      [entities$]="entities$"
+      [type]="gridTypes.DESKTOP"
+      [swiperInstance]="swiperInstance"
+    ></app-grid-component>
+  </swiper-slide>
+
+  <swiper-slide class="grids__slide">
+    <app-grid-component
+      [gridId]="grid.id"
+      [gridItems]="grid.gridItems"
+      [entities$]="entities$"
+      [type]="gridTypes.TABLET"
+      [swiperInstance]="swiperInstance"
+    ></app-grid-component>
+  </swiper-slide>
+
+  <swiper-slide class="grids__slide">
+    <app-grid-component
+      [gridId]="grid.id"
+      [gridItems]="grid.gridItems"
+      [entities$]="entities$"
+      [type]="gridTypes.MOBILE"
+      [swiperInstance]="swiperInstance"
+    ></app-grid-component>
+  </swiper-slide>
+</swiper-container>
+
+<app-admin-button class="button" type="button" *ngIf="isAdmin$ | async" (handleClick)="save()">Сохранить</app-admin-button> -->
+
+<app-grid-entities
+  *ngIf="(entities$ | async)?.length"
+  [entities$]="entities$"
+  [grid]="grid"
+></app-grid-entities>
+
+<app-grid-settings></app-grid-settings>
+
+<swiper-container
+  class="grids"
+  init="false"
+  slides-per-view="auto"
+  space-between="100"
+  centered-slides="true"
+  free-mode="true"
+  scrollbar-hide="true"
+  grab-cursor="true"
+>
+  <!-- Отображаем все типы сеток, если пользователь админ -->
+  <swiper-slide
+    class="grids__slide"
+    *ngIf="(isAdmin$ | async) || isCurrentScreenType(gridTypes.DESKTOP)"
+  >
+    <!-- [gridItems]="grid.grid.items" -->
+    <app-grid-component
+      [gridId]="grid.id"
+      [gridItems]="grid.items"
+      [entities$]="entities$"
+      [type]="gridTypes.DESKTOP"
+      [swiperInstance]="swiperInstance"
+    ></app-grid-component>
+  </swiper-slide>
+
+  <swiper-slide
+    class="grids__slide"
+    *ngIf="(isAdmin$ | async) || isCurrentScreenType(gridTypes.TABLET)"
+  >
+    <!-- [gridItems]="grid.grid.items" -->
+    <app-grid-component
+      [gridId]="grid.id"
+      [gridItems]="grid.items"
+      [entities$]="entities$"
+      [type]="gridTypes.TABLET"
+      [swiperInstance]="swiperInstance"
+    ></app-grid-component>
+  </swiper-slide>
+
+  <swiper-slide
+    class="grids__slide"
+    *ngIf="(isAdmin$ | async) || isCurrentScreenType(gridTypes.MOBILE)"
+  >
+    <!-- [gridItems]="grid.grid.items" -->
+    <app-grid-component
+      [gridId]="grid.id"
+      [gridItems]="grid.items"
+      [entities$]="entities$"
+      [type]="gridTypes.MOBILE"
+      [swiperInstance]="swiperInstance"
+    ></app-grid-component>
+  </swiper-slide>
+</swiper-container>
+
+<app-admin-button class="button" type="button" *ngIf="isAdmin$ | async" (handleClick)="save()">
+  Сохранить
+</app-admin-button>

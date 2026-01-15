@@ -1,0 +1,18 @@
+<app-stack gap="16px" direction="column">
+  <app-admin-search (searchChange)="onSearchChange($event)"></app-admin-search>
+
+  <div class="editList">
+    <article
+      class="editList__item"
+      *ngFor="let milling of (millings$ | async) ?? [] | filterSearch: searchText:['id', 'name']"
+      (click)="changeCur(milling)"
+    >
+      <!-- <img src="{{ baseUrlStatic }}{{milling.images[0].path}}" /> -->
+      <p
+        [appHighlight]="milling.id!.toString()"
+        [search]="searchText"
+      ></p>
+      <p [appHighlight]="milling.name" [search]="searchText"></p>
+    </article>
+  </div>
+</app-stack>

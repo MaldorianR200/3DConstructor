@@ -1,0 +1,130 @@
+<header class="header" [ngClass]="{ 'header--open': isMenuOpen, 'header--blurred': isMenuOpen }">
+  <div class="header__logo-button">
+    <a [routerLink]="[routes.HOME]" class="header__logo">
+      <img class="image" src="/shared/assets/icons/logo.svg" alt="Лого компании" />
+    </a>
+  </div>
+
+  <!-- Навигация для десктопов -->
+  <nav class="header__nav header__nav--desktop" *ngIf="!isMobile" (mouseleave)="closeDropdown()">
+    <div class="header__container">
+      <a
+        class="header__item"
+        [routerLink]="[routes.HOME]"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        Главная
+      </a>
+      <a class="header__item" [routerLink]="[routes.CATALOG]" routerLinkActive="active">Каталог</a>
+      <a class="header__item" [routerLink]="[routes.ABOUT]" routerLinkActive="active">О компании</a>
+      <a class="header__item" [routerLink]="[routes.DISCOUNTS]" routerLinkActive="active">Акции</a>
+      <a class="header__item" [routerLink]="[routes.CALCULATOR]" routerLinkActive="active">
+        3Д-калькулятор
+      </a>
+      <ng-container *ngIf="!isTablet">
+        <a class="header__item" [routerLink]="[routes.REVIEWS]" routerLinkActive="active">Отзывы</a>
+        <a class="header__item" [routerLink]="[routes.CONTACTS]" routerLinkActive="active">
+          Контакты
+        </a>
+      </ng-container>
+      <button (mouseenter)="openDropdown()" class="header__item header__item--extra">Ещё</button>
+    </div>
+
+    <div
+      class="header__container header__container--dropdown"
+      [ngClass]="{ hide: !isOpenDropdown }"
+    >
+      <ng-container *ngIf="isTablet">
+        <a class="header__item" [routerLink]="[routes.REVIEWS]" routerLinkActive="active">Отзывы</a>
+        <a class="header__item" [routerLink]="[routes.CONTACTS]" routerLinkActive="active">
+          Контакты
+        </a>
+      </ng-container>
+      <a class="header__item" [routerLink]="routes.INNOVATIONS" routerLinkActive="active">
+        Новинки
+      </a>
+      <a class="header__item" [routerLink]="routes.NEWS" routerLinkActive="active">
+        Жизнь компании
+      </a>
+      <a class="header__item" [routerLink]="routes.PHOTOGALLERY" routerLinkActive="active">
+        Галерея
+      </a>
+      <a class="header__item" [routerLink]="routes.COOPERATION" routerLinkActive="active">
+        Сотрудничество
+      </a>
+      <a class="header__item" [routerLink]="routes.DEALERS" routerLinkActive="active">Дилеры</a>
+    </div>
+  </nav>
+
+  <div class="header__overlay" [ngClass]="{ 'header__overlay--visible': isMenuOpen }"></div>
+
+  <div class="header__search" *ngIf="!isMenuOpen && !isMobile">
+    <button></button>
+    <input />
+  </div>
+</header>
+
+<header class="header-mobile">
+  <div class="header-mobile__wrapper">
+    <div class="header-mobile__logo">
+      <a [routerLink]="[routes.HOME]" class="header__logo">
+        <img class="image" src="/shared/assets/icons/logo.svg" alt="Лого компании" />
+      </a>
+    </div>
+
+    <button
+      class="header-mobile__menuBtn"
+      (click)="toggleMobileMenu()"
+      [ngClass]="{ active: isMenuOpen }"
+    >
+      <div class="icon"></div>
+    </button>
+  </div>
+
+  <div class="header-mobile__dropDownMenu" [ngClass]="{ open: isMenuOpen }">
+    <nav class="header-mobile__nav">
+      <a
+        class="header-mobile__item"
+        [routerLink]="[routes.HOME]"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        Главная
+      </a>
+      <a class="header-mobile__item" [routerLink]="[routes.CATALOG]" routerLinkActive="active">
+        Каталог
+      </a>
+      <a class="header-mobile__item" [routerLink]="[routes.ABOUT]" routerLinkActive="active">
+        О компании
+      </a>
+      <a class="header-mobile__item" [routerLink]="[routes.DISCOUNTS]" routerLinkActive="active">
+        Акции
+      </a>
+      <a class="header-mobile__item" [routerLink]="[routes.CALCULATOR]" routerLinkActive="active">
+        3Д-калькулятор
+      </a>
+      <a class="header-mobile__item" [routerLink]="[routes.REVIEWS]" routerLinkActive="active">
+        Отзывы
+      </a>
+      <a class="header-mobile__item" [routerLink]="[routes.CONTACTS]" routerLinkActive="active">
+        Контакты
+      </a>
+      <a class="header-mobile__item" [routerLink]="routes.INNOVATIONS" routerLinkActive="active">
+        Новинки
+      </a>
+      <a class="header-mobile__item" [routerLink]="routes.NEWS" routerLinkActive="active">
+        Жизнь компании
+      </a>
+      <a class="header-mobile__item" [routerLink]="routes.PHOTOGALLERY" routerLinkActive="active">
+        Галерея
+      </a>
+      <a class="header-mobile__item" [routerLink]="routes.COOPERATION" routerLinkActive="active">
+        Сотрудничество
+      </a>
+      <a class="header-mobile__item" [routerLink]="routes.DEALERS" routerLinkActive="active">
+        Дилеры
+      </a>
+    </nav>
+  </div>
+</header>

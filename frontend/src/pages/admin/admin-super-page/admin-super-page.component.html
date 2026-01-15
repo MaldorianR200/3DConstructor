@@ -1,0 +1,13 @@
+<section class="widgetsList">
+  <app-admin-widget-template
+    class="widgetsList__item"
+    [props]="{
+      title: 'Сетка',
+      countItems: (gridsCount$ | async) ?? 0,
+      widgetsIconPath: '/shared/assets/admin/gridsIcon.png',
+      link: routes.ADMIN_PANEL_GRIDS,
+    }"
+  ></app-admin-widget-template>
+</section>
+
+<router-outlet></router-outlet>

@@ -1,0 +1,26 @@
+<div class="form">
+  <div>
+    <h2 class="form__title">Ваш аккаунт: {{ user?.email }}</h2>
+    <h1 class="adminTitle">Обновление данных профиля</h1>
+  </div>
+
+  <app-admin-form [form]="profileForm" (handleSubmit)="updateProfile()">
+    <app-stack direction="column" alignItems="end">
+      <app-admin-input
+        [control]="profileForm.get('password')!"
+        [props]="{
+          id: 'profilePswd',
+          type: 'password',
+          placeholder: 'Введите новый пароль',
+          required: true,
+          minLength: 8,
+        }"
+      ></app-admin-input>
+
+      <app-stack>
+        <app-admin-button variant="red" (handleClick)="deleteProfile()">Удалить</app-admin-button>
+        <app-admin-button type="submit">Обновить</app-admin-button>
+      </app-stack>
+    </app-stack>
+  </app-admin-form>
+</div>

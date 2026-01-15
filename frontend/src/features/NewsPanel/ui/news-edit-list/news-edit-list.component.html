@@ -1,0 +1,15 @@
+<app-stack gap="16px" direction="column">
+  <app-admin-search (searchChange)="onSearchChange($event)"></app-admin-search>
+
+  <div class="editList">
+    <article
+      class="editList__item"
+      *ngFor="let news of (news$ | async) ?? [] | filterSearch: searchText : ['id', 'name']"
+      (click)="changeCur(news)"
+    >
+      <img src="{{ baseUrlStatic }}{{ news.images[0].path }}" />
+      <p [appHighlight]="news.id!.toString()" [search]="searchText"></p>
+      <p [appHighlight]="news.name" [search]="searchText"></p>
+    </article>
+  </div>
+</app-stack>

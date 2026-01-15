@@ -1,0 +1,30 @@
+<div class="form loginForm">
+  <h1 class="adminTitle loginForm__title">Вход</h1>
+
+  <app-admin-form [form]="loginForm" (handleSubmit)="login()">
+    <app-stack direction="column" alignItems="end">
+      <app-admin-input
+        [control]="loginForm.get('email')!"
+        [props]="{
+          id: 'loginEmail',
+          type: 'email',
+          required: true,
+          placeholder: 'Введите email',
+        }"
+      ></app-admin-input>
+
+      <app-admin-input
+        [control]="loginForm.get('password')!"
+        [props]="{
+          id: 'loginPswd',
+          type: 'password',
+          placeholder: 'Введите пароль',
+          required: true,
+          minLength: 8,
+        }"
+      ></app-admin-input>
+
+      <app-admin-button type="submit">Войти</app-admin-button>
+    </app-stack>
+  </app-admin-form>
+</div>

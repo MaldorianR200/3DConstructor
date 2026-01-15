@@ -1,0 +1,12 @@
+<div class="layout">
+  <app-header class="header"></app-header>
+
+  <main class="main">
+    <router-outlet></router-outlet>
+  </main>
+
+  <app-footer class="footer"></app-footer>
+</div>
+
+<app-admin-to-admin *ngIf="isAuth"></app-admin-to-admin>
+<app-meta-tags-provider></app-meta-tags-provider>

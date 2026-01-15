@@ -1,0 +1,1 @@
+export { EdgePanelComponent } from './ui/edge-panel/edge-panel.component'

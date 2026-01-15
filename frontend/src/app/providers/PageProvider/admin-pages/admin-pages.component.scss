@@ -1,0 +1,15 @@
+.page {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  background-color: var(--admin-bg-color);
+  font-family: var(--admin-font-family);
+  color: var(--admin-black);
+
+  &__container {
+    flex: 1;
+    padding: 20px 20px 120px 20px;
+    overflow-y: scroll;
+  }
+}

@@ -1,0 +1,42 @@
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-family: inherit;
+  vertical-align: baseline;
+  box-sizing: border-box;
+}
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+a,
+button {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+body {
+  line-height: 1;
+}
+
+.highlight {
+  background-color: yellow;
+  color: black;
+} /*# sourceMappingURL=styles.css.map */

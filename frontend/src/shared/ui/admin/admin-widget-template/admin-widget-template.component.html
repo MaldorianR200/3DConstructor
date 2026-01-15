@@ -1,0 +1,19 @@
+<article class="widget">
+  <a [routerLink]="props.link" class="widget__link"></a>
+
+  <div class="widget__container">
+    <h4 class="widget__title">{{ props.title }}</h4>
+
+    <img class="widget__icon" src="{{ props.widgetsIconPath }}" alt="" />
+
+    <h6 *ngIf="props.countItems" class="widget__count">{{ props.countItems }}</h6>
+  </div>
+
+  <app-stack direction="column" gap="8px" class="widget__sub">
+    <a class="widget__text" [routerLink]="props.link" *ngIf="!props.isSingular">Создание</a>
+
+    <a class="widget__text" [routerLink]="props.link" [queryParams]="{ edit: true }">
+      Редактирование
+    </a>
+  </app-stack>
+</article>

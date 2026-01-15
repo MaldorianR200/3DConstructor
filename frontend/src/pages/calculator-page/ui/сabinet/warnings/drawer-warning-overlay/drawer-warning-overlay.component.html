@@ -1,0 +1,57 @@
+<!-- drawer-warning-overlay.component.html -->
+<div class="drawer-warning-overlay" *ngIf="isVisible">
+  <div class="drawer-warning-modal">
+    <div class="drawer-warning-header">
+      <div class="drawer-warning-icon">📦</div>
+      <h3>{{ title }}</h3>
+      <button class="close-btn" (click)="close()">×</button>
+    </div>
+
+    <div class="drawer-warning-content">
+      <p>{{ message }}</p>
+    </div>
+
+    <!-- Кнопки отображаются только при обновлении существующих ящиков -->
+    <div class="drawer-warning-actions" *ngIf="!isAddingNew">
+      <!-- Для одностворчатых шкафов -->
+      <ng-container *ngIf="isSingleCabinet">
+        <button
+          class="btn btn-primary"
+          (click)="restoreWidth()">
+          📏 Вернуть ширину {{ minWidth }}мм
+        </button>
+
+        <button
+          class="btn btn-danger"
+          (click)="removeDrawers()">
+          🗑️ Удалить ящики
+        </button>
+      </ng-container>
+
+      <!-- Для двустворчатых шкафов -->
+      <ng-container *ngIf="!isSingleCabinet">
+        <button
+          class="btn btn-danger"
+          (click)="removeDrawers()">
+          🗑️ Удалить ящики
+        </button>
+
+        <button
+          class="btn btn-secondary"
+          (click)="restoreMullion()"
+          *ngIf="hasMullion">
+          ↩️ Вернуть средник
+        </button>
+      </ng-container>
+    </div>
+
+    <!-- Для добавления новых ящиков - только кнопка закрытия -->
+    <div class="drawer-warning-actions" *ngIf="isAddingNew">
+      <button
+        class="btn btn-primary"
+        (click)="close()">
+        Понятно
+      </button>
+    </div>
+  </div>
+</div>

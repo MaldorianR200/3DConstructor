@@ -1,0 +1,11 @@
+<app-stack class="panel" direction="column" alignItems="center" gap="32px">
+  <app-admin-change-action [isEdit]="isEdit"></app-admin-change-action>
+
+  <app-grid-form *ngIf="!isEdit || curEditGrid$.value" [grid$]="curEditGrid$"></app-grid-form>
+
+  <app-grid-edit-list
+    *ngIf="isEdit"
+    [grids$]="grids$"
+    [curEditGrid$]="curEditGrid$"
+  ></app-grid-edit-list>
+</app-stack>

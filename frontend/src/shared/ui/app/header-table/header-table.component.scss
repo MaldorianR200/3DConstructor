@@ -1,0 +1,28 @@
+.grid {
+  display: grid;
+  grid-template-columns: 0.1fr 1fr 1fr 1fr 1fr; /* Четыре равных столбца */
+  gap: 10px; /* Расстояние между ячейками */
+  padding: 10px;
+  align-items: center;
+  justify-items: center;
+  background: none;
+}
+
+.short-grid {
+  display: grid;
+  grid-template-columns: 0.1fr 1fr 1fr; /* Два равных столбца */
+  gap: 10px; /* Расстояние между ячейками */
+  padding: 10px;
+  align-items: center;
+  justify-items: center;
+}
+
+.other-grid {
+  display: grid;
+  grid-template-columns: 0.1fr 1fr 1fr 1fr 1fr; /* Четыре равных столбца */
+  gap: 10px; /* Расстояние между ячейками */
+  padding: 10px;
+  align-items: center;
+  justify-items: center;
+  background: none;
+}

@@ -1,0 +1,1 @@
+export { MillingPanelComponent } from './ui/milling-panel/milling-panel.component'

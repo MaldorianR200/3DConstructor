@@ -1,0 +1,121 @@
+<div *ngIf="shelf" class="control-shelf" (click)="$event.stopPropagation()">
+  <h3>Полки / Штанги</h3>
+
+  <div class="shelf-actions">
+    <!-- Top Cabinet -->
+    <ng-container *ngIf="isTopCabinet; else normalShelf">
+      <div class="top-cabinet-controls">
+        <!-- Выбор стороны для штанги -->
+        <div *ngIf="rodSideSelectionVisible" class="rod-side-selection">
+          <p>Выберите сторону для штанги:</p>
+          <button class="btn btn-primary" (click)="selectRodSide('left')" [disabled]="leftRodAdded">
+            {{ leftRodAdded ? 'Штанга слева уже добавлена' : 'Добавить штангу слева' }}
+          </button>
+          <button
+            class="btn btn-primary"
+            (click)="selectRodSide('right')"
+            [disabled]="rightRodAdded"
+          >
+            {{ rightRodAdded ? 'Штанга справа уже добавлена' : 'Добавить штангу справа' }}
+          </button>
+          <button class="btn btn-secondary" (click)="cancelRodSelection()">Отмена</button>
+        </div>
+
+        <!-- Основные кнопки управления topCabinet -->
+        <div *ngIf="!rodSideSelectionVisible" class="main-top-cabinet-controls">
+          <button
+            class="btn btn-primary add-rod"
+            (click)="onAddRodShelf($event)"
+            [disabled]="isAddRodButtonDisabled"
+          >
+            {{
+              cabinetType === 'single'
+                ? hasRod
+                  ? 'Штанга уже добавлена'
+                  : 'Добавить штангу'
+                : leftRodAdded && rightRodAdded
+                  ? 'Штанги уже добавлены'
+                  : leftRodAdded
+                    ? 'Добавить штангу справа'
+                    : rightRodAdded
+                      ? 'Добавить штангу слева'
+                      : 'Добавить штангу'
+            }}
+          </button>
+
+          <!-- Информация о добавленных штангах -->
+          <div class="current-rods-info" *ngIf="hasRod">
+            <div class="rods-list">
+              <span *ngIf="leftRodAdded" class="rod-item left">Штанга слева ✓</span>
+              <span *ngIf="rightRodAdded" class="rod-item right">Штанга справа ✓</span>
+              <span *ngIf="fullRodAdded" class="rod-item full">Штанга добавлена ✓</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- Обычные шкафы -->
+    <ng-template #normalShelf>
+      <!-- Выбор стороны штанги (показывается при rodSideSelectionVisible) -->
+      <div *ngIf="rodSideSelectionVisible" class="rod-side-selection">
+        <p>Выберите сторону для штанги:</p>
+        <button class="btn btn-primary" (click)="selectRodSide('left')" [disabled]="leftRodAdded">
+          {{ leftRodAdded ? 'Штанга слева уже добавлена' : 'Добавить слева' }}
+        </button>
+        <button class="btn btn-primary" (click)="selectRodSide('right')" [disabled]="rightRodAdded">
+          {{ rightRodAdded ? 'Штанга справа уже добавлена' : 'Добавить справа' }}
+        </button>
+        <button class="btn btn-secondary" (click)="cancelRodSelection()">Отмена</button>
+      </div>
+
+      <!-- Основные кнопки управления полкой -->
+      <div *ngIf="!rodSideSelectionVisible" class="main-shelf-controls">
+        <!-- Одностворчатый шкаф -->
+        <button
+          *ngIf="cabinetType === 'single'"
+          class="btn btn-primary"
+          (click)="addFullRod()"
+          [disabled]="hasRod"
+        >
+          {{ hasRod ? 'Штанга уже добавлена' : 'Добавить штангу' }}
+        </button>
+
+        <!-- Двустворчатый шкаф -->
+        <ng-container *ngIf="cabinetType === 'double'">
+          <div *ngIf="getShelfSection() === 'center'; else sectionShelf">
+            <!-- Центральная полка - можно добавить слева или справа в зависимости от условий -->
+            <button
+              class="btn btn-primary"
+              (click)="onAddRodShelf($event)"
+              [disabled]="leftRodAdded && rightRodAdded"
+            >
+              {{
+                leftRodAdded && rightRodAdded
+                  ? 'Штанги уже добавлены'
+                  : leftRodAdded
+                    ? 'Добавить штангу справа'
+                    : rightRodAdded
+                      ? 'Добавить штангу слева'
+                      : 'Добавить штангу'
+              }}
+            </button>
+          </div>
+          <ng-template #sectionShelf>
+            <!-- Полка в левой или правой секции - просто штанга -->
+            <button class="btn btn-primary" (click)="addFullRod()" [disabled]="hasRod">
+              {{ hasRod ? 'Штанга уже добавлена' : 'Добавить штангу' }}
+            </button>
+          </ng-template>
+        </ng-container>
+
+        <!-- Общие кнопки -->
+        <button class="btn btn-danger" (click)="onDeleteShelf()">Удалить полку</button>
+
+        <button class="btn btn-secondary" (click)="toggleShelfType()">
+          {{ shelfType === 'cutout' ? 'Изменить на углубление 80 мм' : 'Изменить на вырез' }}
+        </button>
+      </div>
+    </ng-template>
+  </div>
+</div>

@@ -1,0 +1,6 @@
+<div class="changeAction">
+  <a [ngClass]="{ active: !isEdit }" [routerLink]="[]">Создание</a>
+  <a [ngClass]="{ active: isEdit }" [routerLink]="[]" [queryParams]="{ edit: true }">
+    Редактирование
+  </a>
+</div>

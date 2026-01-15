@@ -1,0 +1,614 @@
+<section class="adminBasePage">
+  <!-- Материалы -->
+  <div class="entity-section">
+    <h2>Материалы</h2>
+    <div class="search-bar">
+      <input
+        type="text"
+        placeholder="Поиск по названию..."
+        [(ngModel)]="materialSearchTerm"
+        (ngModelChange)="filterMaterials()"
+      />
+    </div>
+    <ng-container *ngIf="filteredMaterials$ | async as materials; else loading">
+      <ng-container *ngIf="materials.length > 0; else noMaterials">
+        <table>
+          <thead>
+          <tr>
+            <th>Название</th>
+            <th>Себестоимость(лист)</th>
+            <th>Активно?</th>
+            <th>Комментарий</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let row of materials">
+            <td>{{ row.name }}</td>
+            <td>
+              <input
+                type="number"
+                [ngModel]="row.price"
+                (ngModelChange)="onPriceChange('Material', row, $event)"
+              />
+            </td>
+            <td>
+              <input
+                type="checkbox"
+                [ngModel]="row.active"
+                (ngModelChange)="onActiveToggle('Material', row, $event)"
+              />
+            </td>
+            <td>
+              <input
+                type="text"
+                [ngModel]="row.comment"
+                (ngModelChange)="onCommentChange('Material', row, $event)"
+              />
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </ng-container>
+      <ng-template #noMaterials>
+        <p>Нет материалов</p>
+      </ng-template>
+    </ng-container>
+  </div>
+
+  <!-- Комбинированные материалы -->
+  <!-- Комбинированные материалы -->
+  <div class="entity-section">
+    <h2>Комбинированные материалы</h2>
+    <div class="search-bar">
+      <input
+        type="text"
+        placeholder="Поиск по названию..."
+        [(ngModel)]="combineMaterialSearchTerm"
+        (ngModelChange)="filterCombineMaterials()"
+      />
+    </div>
+    <ng-container *ngIf="filteredCombineMaterials$ | async as combineMaterials; else loading">
+      <ng-container *ngIf="combineMaterials.length > 0; else noCombineMaterials">
+        <table class="combine-material-table">
+          <thead>
+          <tr>
+            <th></th>
+            <th>Название</th>
+            <th>Общая стоимость</th>
+            <th>Активно?</th>
+            <th>Комментарий</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let combineMaterial of combineMaterials" class="combine-material-row">
+            <td class="expand-cell">
+              <button
+                class="expand-btn"
+                (click)="toggleCombineMaterialExpansion(combineMaterial)"
+                [class.expanded]="combineMaterial.expanded"
+              >
+                {{ combineMaterial.expanded ? '−' : '+' }}
+              </button>
+            </td>
+            <td class="name-cell">{{ combineMaterial.name }}</td>
+            <td class="total-cost-cell">
+              <span class="price-display">{{ combineMaterial.totalCost | number:'1.2-2' }}</span>
+            </td>
+            <td class="active-cell">
+              <input
+                type="checkbox"
+                [ngModel]="combineMaterial.active"
+                (ngModelChange)="onActiveToggle('CombineMaterial', combineMaterial, $event)"
+              />
+            </td>
+            <td class="comment-cell">
+              <input
+                type="text"
+                [ngModel]="combineMaterial.comment"
+                (ngModelChange)="onCommentChange('CombineMaterial', combineMaterial, $event)"
+              />
+            </td>
+          </tr>
+
+          <!-- Развернутая секция с материалами и операциями -->
+          <tr *ngFor="let combineMaterial of combineMaterials">
+            <td colspan="5" *ngIf="combineMaterial.expanded" class="materials-section">
+              <div class="materials-container">
+                <h4>Состав комбинированного материала "{{ combineMaterial.name }}"</h4>
+                <div *ngFor="let material of combineMaterial.materials; let materialIndex = index" class="material-group">
+                  <h3 class="material-title">{{ material.materialName }}</h3>
+                  <table class="operations-table">
+                    <thead>
+                    <tr>
+                      <th>Операция</th>
+                      <th>Цена за операцию</th>
+                      <th>Количество</th>
+                      <th>Стоимость</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let operation of material.operations; let operationIndex = index" class="operation-row">
+                      <td class="operation-name">{{ operation.typeName }}</td>
+                      <td class="operation-price">
+                        <input
+                          type="number"
+                          [ngModel]="operation.price"
+                          (ngModelChange)="onOperationPriceChange(combineMaterial, materialIndex, operationIndex, $event)"
+                          min="0"
+                          step="0.01"
+                        />
+                      </td>
+                      <td class="operation-count">
+                        <input
+                          type="number"
+                          [ngModel]="operation.count"
+                          (ngModelChange)="onOperationCountChange(combineMaterial, materialIndex, operationIndex, $event)"
+                          min="0"
+                          step="1"
+                        />
+                      </td>
+                      <td class="operation-total">
+                        {{ (operation.price * operation.count) | number:'1.2-2' }}
+                      </td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr class="material-total">
+                      <td colspan="3"><strong>Стоимость материала:</strong></td>
+                      <td>
+                        <strong>
+                          {{ getMaterialTotalCost(material) | number:'1.2-2' }}
+                        </strong>
+                      </td>
+                    </tr>
+                    </tfoot>
+                  </table>
+                </div>
+                <div class="combine-material-total">
+                  <strong>Общая стоимость комбинированного материала: {{ combineMaterial.totalCost | number:'1.2-2' }}</strong>
+                </div>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </ng-container>
+      <ng-template #noCombineMaterials>
+        <p>Нет комбинированных материалов</p>
+      </ng-template>
+    </ng-container>
+  </div>
+  <!-- Крепежи -->
+  <div class="entity-section">
+    <h2>Крепежи</h2>
+    <div class="search-bar">
+      <input
+        type="text"
+        placeholder="Поиск по названию..."
+        [(ngModel)]="fastenerSearchTerm"
+        (ngModelChange)="filterFasteners()"
+      />
+    </div>
+    <ng-container *ngIf="filteredFasteners$ | async as fasteners; else loading">
+      <ng-container *ngIf="fasteners.length > 0; else noFasteners">
+        <table>
+          <thead>
+            <tr>
+              <th>Название</th>
+              <th>Себестоимость</th>
+              <th>Активно?</th>
+              <th>Комментарий</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of fasteners">
+              <td>{{ row.name }}</td>
+              <td>
+                <input
+                  type="number"
+                  [ngModel]="row.price"
+                  (ngModelChange)="onPriceChange('Fasteners', row, $event)"
+                />
+              </td>
+              <td>
+                <input
+                  type="checkbox"
+                  [ngModel]="row.active"
+                  (ngModelChange)="onActiveToggle('Fasteners', row, $event)"
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  [ngModel]="row.comment"
+                  (ngModelChange)="onCommentChange('Fasteners', row, $event)"
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </ng-container>
+      <ng-template #noFasteners>
+        <p>Нет крепежей</p>
+      </ng-template>
+    </ng-container>
+  </div>
+
+  <!-- Фурнитура -->
+  <div class="entity-section">
+    <h2>Фурнитура</h2>
+    <div class="search-bar">
+      <input
+        type="text"
+        placeholder="Поиск по названию..."
+        [(ngModel)]="furnitureSearchTerm"
+        (ngModelChange)="filterFurniture()"
+      />
+    </div>
+    <ng-container *ngIf="filteredFurniture$ | async as furnitures; else loading">
+      <ng-container *ngIf="furnitures.length > 0; else noFurnitures">
+        <table>
+          <thead>
+            <tr>
+              <th>Название</th>
+              <th>Себестоимость</th>
+              <th>Активно?</th>
+              <th>Комментарий</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of furnitures">
+              <td>{{ row.name }}</td>
+              <td>
+                <input
+                  type="number"
+                  [ngModel]="row.price"
+                  (ngModelChange)="onPriceChange('Furniture', row, $event)"
+                />
+              </td>
+              <td>
+                <input
+                  type="checkbox"
+                  [ngModel]="row.active"
+                  (ngModelChange)="onActiveToggle('Furniture', row, $event)"
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  [ngModel]="row.comment"
+                  (ngModelChange)="onCommentChange('Furniture', row, $event)"
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </ng-container>
+      <ng-template #noFurnitures>
+        <p>Нет фурнитуры</p>
+      </ng-template>
+    </ng-container>
+  </div>
+
+  <!-- Фрезеровки -->
+  <div class="entity-section">
+    <h2>Фрезеровки</h2>
+    <div class="search-bar">
+      <input
+        type="text"
+        placeholder="Поиск по названию..."
+        [(ngModel)]="millingSearchTerm"
+        (ngModelChange)="filterMillings()"
+      />
+    </div>
+    <ng-container *ngIf="filteredMillings$ | async as millings; else loading">
+      <ng-container *ngIf="millings.length > 0; else noMillings">
+        <table class="milling-table">
+          <thead>
+          <tr>
+            <th></th>
+            <th>Название</th>
+            <th>Общая стоимость</th>
+            <th>Активно?</th>
+            <th>Комментарий</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let milling of millings" class="milling-row">
+            <td class="expand-cell">
+              <button
+                class="expand-btn"
+                (click)="toggleMillingExpansion(milling)"
+                [class.expanded]="milling.expanded"
+              >
+                {{ milling.expanded ? '−' : '+' }}
+              </button>
+            </td>
+            <td class="name-cell">{{ milling.name }}</td>
+            <td class="total-cost-cell">
+              <span class="price-display">{{ milling.totalCost | number:'1.2-2' }}</span>
+            </td>
+            <td class="active-cell">
+              <input
+                type="checkbox"
+                [ngModel]="milling.active"
+                (ngModelChange)="onActiveToggle('Milling', milling, $event)"
+              />
+            </td>
+            <td class="comment-cell">
+              <input
+                type="text"
+                [ngModel]="milling.comment"
+                (ngModelChange)="onCommentChange('Milling', milling, $event)"
+              />
+            </td>
+          </tr>
+
+          <!-- Развернутая секция с шагами -->
+          <tr *ngFor="let milling of millings">
+            <td colspan="5" *ngIf="milling.expanded" class="steps-section">
+              <div class="steps-container">
+                <h4>Шаги фрезеровки "{{ milling.name }}"</h4>
+                <table class="steps-table">
+                  <thead>
+                  <tr>
+                    <th>Название шага</th>
+                    <th>Цена за шаг</th>
+                    <th>Количество</th>
+                    <th>Стоимость</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let step of milling.steps; let i = index" class="step-row">
+                    <td class="step-name">{{ step.stepName }}</td>
+                    <td class="step-price">
+                      <input
+                        type="number"
+                        [ngModel]="step.price"
+                        (ngModelChange)="onStepPriceChange(milling, i, $event)"
+                        min="0"
+                        step="0.01"
+                      />
+                    </td>
+                    <td class="step-count">
+                      <input
+                        type="number"
+                        [ngModel]="step.count"
+                        (ngModelChange)="onStepCountChange(milling, i, $event)"
+                        min="0"
+                        step="1"
+                      />
+                    </td>
+                    <td class="step-total">
+                      {{ (step.price * step.count) | number:'1.2-2' }}
+                    </td>
+                  </tr>
+                  </tbody>
+                  <tfoot>
+                  <tr class="steps-total">
+                    <td colspan="3"><strong>Общая стоимость:</strong></td>
+                    <td><strong>{{ milling.totalCost | number:'1.2-2' }}</strong></td>
+                  </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </ng-container>
+      <ng-template #noMillings>
+        <p>Нет фрезеровок</p>
+      </ng-template>
+    </ng-container>
+  </div>
+
+  <!-- Действия -->
+  <div class="entity-section">
+    <h2>Действия</h2>
+    <div class="search-bar">
+      <input
+        type="text"
+        placeholder="Поиск по названию..."
+        [(ngModel)]="actionSearchTerm"
+        (ngModelChange)="filterActions()"
+      />
+    </div>
+    <ng-container *ngIf="filteredActionss$ | async as actions; else loading">
+      <ng-container *ngIf="actions.length > 0; else noActions">
+        <table>
+          <thead>
+            <tr>
+              <th>Тип работы</th>
+              <th>Название</th>
+              <th>Себестоимость</th>
+              <th>Активно?</th>
+              <th>Комментарий</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of actions">
+              <td>{{ translateType(row.type) }}</td>
+              <td>{{ row.name }}</td>
+              <td>
+                <input
+                  type="number"
+                  [ngModel]="row.price"
+                  (ngModelChange)="onPriceChange('Actionss', row, $event)"
+                />
+              </td>
+              <td>
+                <input
+                  type="checkbox"
+                  [ngModel]="row.active"
+                  (ngModelChange)="onActiveToggle('Actionss', row, $event)"
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  [ngModel]="row.comment"
+                  (ngModelChange)="onCommentChange('Actionss', row, $event)"
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </ng-container>
+      <ng-template #noActions>
+        <p>Нет действий</p>
+      </ng-template>
+    </ng-container>
+  </div>
+
+  <!-- Серии продукции -->
+  <div class="entity-section">
+    <h2>Серии продукции</h2>
+    <div class="search-bar">
+      <input
+        type="text"
+        placeholder="Поиск по названию..."
+        [(ngModel)]="seriesSearchTerm"
+        (ngModelChange)="filterSeries()"
+      />
+    </div>
+    <ng-container *ngIf="filteredSeries$ | async as series; else loading">
+      <ng-container *ngIf="series.length > 0; else noSeries">
+        <table>
+          <thead>
+            <tr>
+              <th>Название</th>
+              <th>Активно?</th>
+              <th>Комментарий</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of series">
+              <td>{{ row.name }}</td>
+              <td>
+                <input
+                  type="checkbox"
+                  [ngModel]="row.active"
+                  (ngModelChange)="onActiveToggle('Series', row, $event)"
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  [ngModel]="row.comment"
+                  (ngModelChange)="onCommentChange('Series', row, $event)"
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </ng-container>
+      <ng-template #noSeries>
+        <p>Нет серий продукции</p>
+      </ng-template>
+    </ng-container>
+  </div>
+
+  <!-- Типы -->
+  <div class="entity-section">
+    <h2>Типы</h2>
+    <div class="search-bar">
+      <input
+        type="text"
+        placeholder="Поиск по названию..."
+        [(ngModel)]="typeSearchTerm"
+        (ngModelChange)="filterTypes()"
+      />
+    </div>
+    <ng-container *ngIf="filteredTypes$ | async as types; else loading">
+      <ng-container *ngIf="types.length > 0; else noTypes">
+        <table>
+          <thead>
+            <tr>
+              <th>Название</th>
+              <th>Активно?</th>
+              <th>Комментарий</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of types">
+              <td>{{ row.name }}</td>
+              <td>
+                <input
+                  type="checkbox"
+                  [ngModel]="row.active"
+                  (ngModelChange)="onActiveToggle('Types', row, $event)"
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  [ngModel]="row.comment"
+                  (ngModelChange)="onCommentChange('Types', row, $event)"
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </ng-container>
+      <ng-template #noTypes>
+        <p>Нет типов</p>
+      </ng-template>
+    </ng-container>
+  </div>
+
+  <!-- Цвета -->
+  <div class="entity-section">
+    <h2>Цвета</h2>
+    <div class="search-bar">
+      <input
+        type="text"
+        placeholder="Поиск по названию..."
+        [(ngModel)]="colorSearchTerm"
+        (ngModelChange)="filterColors()"
+      />
+    </div>
+    <ng-container *ngIf="filteredColors$ | async as color; else loading">
+      <ng-container *ngIf="color.length > 0; else noColor">
+        <table>
+          <thead>
+            <tr>
+              <th>Название</th>
+              <th>Активно?</th>
+              <th>Комментарий</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of color">
+              <td>{{ row.name }}</td>
+              <td>
+                <input
+                  type="checkbox"
+                  [ngModel]="row.active"
+                  (ngModelChange)="onActiveToggle('Color', row, $event)"
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  [ngModel]="row.comment"
+                  (ngModelChange)="onCommentChange('Color', row, $event)"
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </ng-container>
+      <ng-template #noColor>
+        <p>Нет цветов</p>
+      </ng-template>
+    </ng-container>
+  </div>
+
+  <ng-template #loading>
+    <p>Загрузка...</p>
+  </ng-template>
+  <div class="save-section">
+    <button (click)="saveAllChanges()">Сохранить изменения</button>
+  </div>
+</section>

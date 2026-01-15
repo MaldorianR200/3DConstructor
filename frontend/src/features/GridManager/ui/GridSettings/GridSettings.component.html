@@ -1,0 +1,20 @@
+<div *ngIf="isAdmin$ | async">
+  <form [formGroup]="settingsForm">
+    <div>
+      <input formControlName="dragging" id="dragging" type="checkbox" />
+      <label for="dragging">Перемещение</label>
+    </div>
+    <div>
+      <input formControlName="resizing" id="resizing" type="checkbox" />
+      <label for="resizing">Маштабирование</label>
+    </div>
+    <div>
+      <input formControlName="zIndex" id="zIndex" type="checkbox" />
+      <label for="zIndex">Размещение по слоям</label>
+    </div>
+    <div>
+      <input formControlName="deleting" id="deleting" type="checkbox" />
+      <label for="deleting">Удалить с сетки</label>
+    </div>
+  </form>
+</div>

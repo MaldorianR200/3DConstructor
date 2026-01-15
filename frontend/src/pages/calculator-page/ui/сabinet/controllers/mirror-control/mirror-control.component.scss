@@ -1,0 +1,39 @@
+.control-mirror {
+  display: flex;
+  flex-direction: column; /* Располагаем кнопки вертикально */
+  align-items: center; /* Выравниваем кнопки по центру */
+  padding: 10px;
+  background-color: #f4f4f4; /* Легкий фон */
+  border-radius: 8px; /* Закругленные углы */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Тень вокруг окна */
+  width: 200px; /* Ширина контроллера */
+  position: absolute; /* Отображение на экране */
+  top: 20rem; /* Отступ сверху */
+  left: 20rem; /* Отступ справа */
+  z-index: 10; /* Обеспечивает, что контроллер всегда сверху */
+}
+
+button {
+  background-color: #007bff; /* Синий фон для кнопок */
+  color: white; /* Белый текст */
+  border: none; /* Без рамки */
+  padding: 10px 15px;
+  margin: 5px 0; /* Отступы между кнопками */
+  border-radius: 5px; /* Закругленные углы */
+  cursor: pointer; /* Курсор в виде руки */
+  transition: background-color 0.3s ease; /* Плавное изменение фона при наведении */
+  width: 100%; /* Кнопки растягиваются на всю ширину контейнера */
+}
+
+button:hover {
+  background-color: #0056b3; /* Темно-синий цвет при наведении */
+}
+
+button:active {
+  background-color: #003f7f; /* Еще более темный цвет при нажатии */
+}
+
+button:disabled {
+  background-color: #cccccc; /* Цвет для отключенных кнопок */
+  cursor: not-allowed; /* Курсор для отключенной кнопки */
+}

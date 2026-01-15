@@ -1,0 +1,77 @@
+:host {
+  width: 100%;
+}
+
+.fileLoader {
+  display: block;
+  position: relative;
+}
+.fileLoader__input {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+.fileLoader__btn {
+  height: 35px;
+  display: flex;
+  align-items: center;
+  border: 2px solid #aab4c0;
+  border-radius: var(--admin-radius-s);
+}
+.fileLoader__btn img {
+  height: 100%;
+  width: 44px;
+  padding: 0 12px;
+  -o-object-fit: contain;
+  object-fit: contain;
+  border-right: 2px solid #aab4c0;
+}
+.fileLoader__btn span {
+  font-size: 16px;
+  padding: 0 12px;
+}
+
+.errors {
+  color: var(--admin-red);
+}
+
+.preview {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  cursor: move;
+  border-radius: var(--admin-radius-s);
+  overflow: hidden;
+}
+.preview.row {
+  width: -moz-fit-content;
+  width: fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  min-height: 25px;
+  padding-right: 30px;
+  display: flex;
+  align-items: center;
+}
+.preview__img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+.preview__delete {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 25px;
+  height: 25px;
+  background: url(/shared/assets/admin/delete.png) center/20px no-repeat;
+  background-color: cyan;
+  filter: invert(1);
+  border-radius: 0 0 0 var(--admin-radius-s);
+} /*# sourceMappingURL=admin-file-loader.component.css.map */

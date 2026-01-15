@@ -1,0 +1,82 @@
+<div class="calculator">
+  <!-- <ng-container *ngIf="!hideUI"> -->
+  <canvas #canvas id="canvas"></canvas>
+  <!-- </ng-container> -->
+
+  <app-shelf-control
+    *ngIf="selectedShelf"
+    [shelf]="selectedShelf"
+    [hasMullion]="hasMullion()"
+    [cabinetType]="cabinetType()"
+    [cabinetSize]="this.sceneManagerService.getCabinet().getCabinetSize()"
+    [mullionHeight]="this.sceneManagerService.getCabinet().mullionManager.getMullionHeight()"
+    [mullionObj]="this.sceneManagerService.getCabinet().getMullion()"
+    (shelfTypeChange)="shelfTypeChange($event)"
+    (addRodShelf)="addRodShelf($event)"
+    (deleteShelf)="deleteShelf(selectedShelf)"
+    (moveShelfCentre)="moveShelfCentre(selectedShelf)"
+    (moveShelfLeft)="moveShelf('left')"
+    (moveShelfRight)="moveShelf('right')"
+    (moveShelfCentre)="moveShelfCentre(selectedShelf)"
+  ></app-shelf-control>
+
+  <app-rod-control
+    *ngIf="selectedRod"
+    [rod]="selectedRod"
+    (deleteRod)="onDeleteRod(selectedRod)"
+  ></app-rod-control>
+
+  <app-mullion-control
+    *ngIf="selectedMullion"
+    [mullion]="selectedMullion"
+    (deleteMullion)="deleteMullion(selectedMullion)"
+    (moveMullionUp)="moveMullionUp(selectedMullion)"
+    (moveMullionDown)="moveMullionDown(selectedMullion)"
+  ></app-mullion-control>
+
+  <app-drawer-control
+    *ngIf="selectedDrawerBlock"
+    [drawerBlock]="selectedDrawerBlock"
+    [hasMullion]="hasMullion()"
+    (deleteBlock)="deleteBlock(selectedDrawerBlock)"
+    (addDrawer)="addDrawer(selectedDrawerBlock)"
+    (deleteDrawer)="deleteDrawer(selectedDrawerBlock)"
+    (moveBlockCenter)="moveDrawerBlockCentre(selectedDrawerBlock)"
+    (moveBlockRight)="moveDrawerBlock('right')"
+    (moveBlockLeft)="moveDrawerBlock('left')"
+  ></app-drawer-control>
+
+  <app-section-controller
+    *ngIf="selectedSection"
+    [selectedSection]="selectedSection"
+    (addShelf)="onAddShelfToSection($event)"
+    (addDrawerBlock)="onAddDrawerBlockToSection($event)"
+    (closeController)="onCloseSectionController()"
+    (subsectionSelected)="onSubsectionSelected($event)"
+  >
+    >
+  </app-section-controller>
+
+  <app-facade-controller
+    *ngIf="selectedDoor"
+    [facade]="selectedDoor"
+    (addMirror)="addMirror(selectedDoor)"
+  ></app-facade-controller>
+
+  <app-mirror-controller
+    *ngIf="selectedMirror"
+    [mirror]="selectedMirror"
+    (deleteMirror)="deleteMirror(selectedMirror)"
+  ></app-mirror-controller>
+
+  <app-warning-overlay></app-warning-overlay>
+  <app-drawer-warning-overlay
+    (actionSelected)="onDrawerWarningAction($event)"
+  ></app-drawer-warning-overlay>
+
+  <app-shelf-warning-overlay></app-shelf-warning-overlay>
+
+
+
+</div>
+

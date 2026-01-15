@@ -1,0 +1,58 @@
+<div class="form">
+  <h1 class="form__title">
+    {{ isCreate ? 'Создание пользователя' : 'Редактирование ' + user$.value?.email }}
+  </h1>
+  <app-admin-form [form]="userForm" (handleSubmit)="submit()">
+    <app-stack direction="column" alignItems="end">
+      <app-admin-input
+        *ngIf="isCreate"
+        [control]="userForm.get('email')!"
+        [props]="{
+          id: 'createUserEmail',
+          type: 'email',
+          required: true,
+          placeholder: 'Введите email',
+        }"
+      ></app-admin-input>
+
+      <app-admin-input
+        [control]="userForm.get('password')!"
+        [props]="{
+          id: 'createUserPswd',
+          type: 'password',
+          placeholder: isCreate ? 'Введите пароль' : 'Введите новый пароль',
+          required: isCreate,
+          minLength: 8,
+        }"
+      ></app-admin-input>
+
+      <app-admin-select
+        label="Выберите роль..."
+        [items]="roles"
+        [control]="userForm.get('role')!"
+      ></app-admin-select>
+
+      <app-stack>
+        <app-admin-button *ngIf="!isCreate" (handleClick)="deleteChangeOpen()" variant="red">
+          Удалить
+        </app-admin-button>
+
+        <app-admin-button type="submit">
+          {{ isCreate ? 'Создать' : 'Редактировать' }}
+        </app-admin-button>
+      </app-stack>
+    </app-stack>
+  </app-admin-form>
+</div>
+
+<!-- Модалка удаления -->
+<app-admin-modal [isOpen]="isOpenDelete" (handleChangeOpen)="deleteChangeOpen()">
+  <app-stack direction="column" alignItems="center">
+    <h4 class="adminTitle">Вы дествительно хотите удалить?</h4>
+
+    <app-stack>
+      <app-admin-button (handleClick)="deleteChangeOpen()" variant="gray">Отмена</app-admin-button>
+      <app-admin-button (handleClick)="delete()" variant="red">Удалить</app-admin-button>
+    </app-stack>
+  </app-stack>
+</app-admin-modal>

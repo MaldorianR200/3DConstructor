@@ -1,0 +1,58 @@
+:host {
+  width: 100%;
+}
+
+.select {
+  width: 100%;
+  position: relative;
+}
+.select__open {
+  position: absolute;
+  z-index: var(--admin-index-select);
+  right: 12px;
+  top: 12px;
+  width: 15px;
+  height: 15px;
+  background: url(/shared/assets/admin/arrow-dropdown.png) center/contain no-repeat;
+  transition: all 0.2s ease-in-out;
+}
+.select__open.open {
+  transform: rotate(180deg);
+}
+.select__btn {
+  position: relative;
+  z-index: var(--admin-index-select);
+  width: 100%;
+  padding: 8px 12px;
+  text-align: start;
+  background-color: var(--admin-white);
+  border: 2px solid var(--admin-gray);
+  border-radius: var(--admin-radius-m);
+  font-size: 16px;
+}
+.select__btn.empty {
+  color: var(--admin-gray);
+}
+.select__list {
+  width: 100%;
+  padding: 10px 0;
+  background-color: var(--admin-light-gray);
+  position: absolute;
+  top: calc(100% - 10px);
+  z-index: calc(var(--admin-index-select) - 1);
+  border-radius: 0 0 var(--admin-radius-m) var(--admin-radius-m);
+}
+.select__item {
+  width: 100%;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.selectOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: calc(var(--admin-index-select) - 2);
+} /*# sourceMappingURL=admin-select.component.css.map */

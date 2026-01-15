@@ -1,0 +1,8 @@
+.widgetsList {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 100px;
+} /*# sourceMappingURL=admin-main-page.component.css.map */

@@ -1,0 +1,87 @@
+<app-stack direction="column" class="form">
+  <h1 class="adminTitle">{{ isCreate ? 'Создание' : 'Редактирование' }} услуг или операций</h1>
+
+  <!-- <h1 class="adminTitle">
+    {{ isCreate ? "Создание" : "Редактирование" }} услуг и операций
+  </h1> -->
+
+  <app-admin-form [form]="actionssForm" (handleSubmit)="submit()">
+    <app-stack direction="column" alignItems="end">
+      <app-admin-input
+        [control]="actionssForm.get('name')!"
+        [props]="{
+          id: 'actionssName',
+          type: 'text',
+          required: true,
+          placeholder: 'Введите название',
+        }"
+      ></app-admin-input>
+      <app-admin-input
+        [control]="actionssForm.get('price')!"
+        [props]="{
+          id: 'actionssName',
+          type: 'number',
+          required: true,
+          placeholder: 'Введите себестоимость (руб)',
+        }"
+      ></app-admin-input>
+
+      <app-admin-input
+        [control]="actionssForm.get('type')!"
+        [props]="{
+          id: 'actionssTypes',
+          type: 'select',
+          required: true,
+          placeholder: 'Выберите тип',
+        }"
+        [options]="types"
+        optionLabel="label"
+        optionValue="value"
+      ></app-admin-input>
+
+      <app-admin-input
+        [control]="actionssForm.get('active')!"
+        [props]="{
+          id: 'actionssActive',
+          type: 'select',
+          placeholder: 'Активно?',
+          optionsBool: true,
+          required: true,
+        }"
+      ></app-admin-input>
+
+      <app-admin-input
+        *ngIf="actionssForm.get('active')?.value === false"
+        [control]="actionssForm.get('comment')!"
+        [props]="{
+          id: 'actionssComment',
+          type: 'text',
+          required: false,
+          placeholder: 'Введите комментарий',
+        }"
+      ></app-admin-input>
+
+      <app-stack>
+        <app-admin-button *ngIf="!isCreate" (handleClick)="deleteChangeOpen()" variant="red">
+          Удалить
+        </app-admin-button>
+
+        <app-admin-button type="submit">
+          {{ isCreate ? 'Создать' : 'Редактировать' }}
+        </app-admin-button>
+      </app-stack>
+    </app-stack>
+  </app-admin-form>
+</app-stack>
+
+<!-- Модалка удаления -->
+<app-admin-modal [isOpen]="isOpenDelete" (handleChangeOpen)="deleteChangeOpen()">
+  <app-stack direction="column" alignItems="center">
+    <h4 class="adminTitle">Вы дествительно хотите удалить?</h4>
+
+    <app-stack>
+      <app-admin-button (handleClick)="deleteChangeOpen()" variant="gray">Отмена</app-admin-button>
+      <app-admin-button (handleClick)="delete()" variant="red">Удалить</app-admin-button>
+    </app-stack>
+  </app-stack>
+</app-admin-modal>

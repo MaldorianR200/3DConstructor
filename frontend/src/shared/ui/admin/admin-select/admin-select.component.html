@@ -1,0 +1,18 @@
+<div class="select">
+  <button
+    class="select__btn"
+    [ngClass]="{ empty: !formControl.value }"
+    type="button"
+    (click)="changeOpen()"
+  >
+    {{ formControl.value ?? label }}
+  </button>
+  <button class="select__open" [ngClass]="{ open: isOpen }"></button>
+  <div *ngIf="isOpen" class="select__list">
+    <div *ngFor="let item of items" class="select__item" (click)="onSelectionChange(item)">
+      {{ item }}
+    </div>
+  </div>
+</div>
+
+<div class="selectOverlay" *ngIf="isOpen" (click)="changeOpen()"></div>

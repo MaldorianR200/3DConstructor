@@ -1,0 +1,14 @@
+<app-stack class="panel" direction="column" alignItems="center" gap="32px">
+  <app-admin-change-action [isEdit]="isEdit"></app-admin-change-action>
+
+  <app-edge-form
+    *ngIf="!isEdit || curEditEdge$.value"
+    [edge$]="curEditEdge$"
+  ></app-edge-form>
+
+  <app-edge-edit-list
+    *ngIf="isEdit"
+    [edges$]="edges$"
+    [curEditEdge$]="curEditEdge$"
+  ></app-edge-edit-list>
+</app-stack>

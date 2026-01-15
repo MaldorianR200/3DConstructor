@@ -1,0 +1,106 @@
+{
+  "grids": [
+    {
+      "page": "PHOTOGALLERY",
+      "entityType": "CATEGORY",
+      "id": 1,
+      "gridItems": [
+        {
+          "entityId": "16",
+          "desktop": {
+            "rowStart": "1",
+            "rowEnd": "4",
+            "columnStart": "1",
+            "columnEnd": "4",
+            "intersection": {
+              "zIndex": "4"
+            }
+          },
+          "tablet": {
+            "rowStart": "1",
+            "rowEnd": "2",
+            "columnStart": "1",
+            "columnEnd": "2",
+            "intersection": {
+              "zIndex": "1"
+            }
+          },
+          "mobile": {
+            "rowStart": "1",
+            "rowEnd": "2",
+            "columnStart": "1",
+            "columnEnd": "2",
+            "intersection": {
+              "zIndex": "1"
+            }
+          }
+        },
+        {
+          "entityId": "15",
+          "desktop": {
+            "rowStart": "1",
+            "rowEnd": "4",
+            "columnStart": "5",
+            "columnEnd": "9",
+            "intersection": {
+              "zIndex": "2"
+            }
+          },
+          "tablet": {
+            "rowStart": "1",
+            "rowEnd": "2",
+            "columnStart": "2",
+            "columnEnd": "3",
+            "intersection": {
+              "zIndex": "1"
+            }
+          },
+          "mobile": {
+            "rowStart": "1",
+            "rowEnd": "2",
+            "columnStart": "2",
+            "columnEnd": "3",
+            "intersection": {
+              "zIndex": "1"
+            }
+          }
+        },
+        {
+          "entityId": "14",
+          "desktop": {
+            "rowStart": "1",
+            "rowEnd": "4",
+            "columnStart": "9",
+            "columnEnd": "11",
+            "intersection": {
+              "zIndex": "1"
+            }
+          },
+          "tablet": {
+            "rowStart": "1",
+            "rowEnd": "2",
+            "columnStart": "3",
+            "columnEnd": "4",
+            "intersection": {
+              "zIndex": "1"
+            }
+          },
+          "mobile": {
+            "rowStart": "2",
+            "rowEnd": "3",
+            "columnStart": "1",
+            "columnEnd": "2",
+            "intersection": {
+              "zIndex": "1"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "page": "NEWS",
+      "entityType": "CATEGORY",
+      "id": 3
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+<div class="shelf-warning-overlay" *ngIf="isVisible">
+      <div class="shelf-warning-modal">
+        <div class="shelf-warning-header">
+          <div class="shelf-warning-icon">⚠️</div>
+          <h3>Невозможно добавить полку</h3>
+          <button class="close-btn" (click)="close()">×</button>
+        </div>
+
+        <div class="shelf-warning-content">
+          <p>{{ message }}</p>
+        </div>
+
+        <div class="shelf-warning-actions">
+          <button class="btn btn-primary" (click)="close()">Понятно</button>
+        </div>
+      </div>
+    </div>

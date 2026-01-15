@@ -1,0 +1,69 @@
+<app-stack direction="column" class="form">
+  <h1 class="adminTitle">{{ isCreate ? 'Создание' : 'Редактирование' }} крепежей</h1>
+
+  <app-admin-form [form]="fastenersForm" (handleSubmit)="submit()">
+    <app-stack direction="column" alignItems="end">
+      <app-admin-input
+        [control]="fastenersForm.get('name')!"
+        [props]="{
+          id: 'fastenersName',
+          type: 'text',
+          required: true,
+          placeholder: 'Введите название',
+        }"
+      ></app-admin-input>
+      <app-admin-input
+        [control]="fastenersForm.get('price')!"
+        [props]="{
+          id: 'fastenersPrice',
+          type: 'number',
+          required: true,
+          placeholder: 'Введите себестоимость(₽)',
+        }"
+      ></app-admin-input>
+      <app-admin-input
+        [control]="fastenersForm.get('active')!"
+        [props]="{
+          id: 'fastenersActive',
+          type: 'select',
+          placeholder: 'Активно?',
+          optionsBool: true,
+          required: true,
+        }"
+      ></app-admin-input>
+
+      <app-admin-input
+        *ngIf="fastenersForm.get('active')?.value === false"
+        [control]="fastenersForm.get('comment')!"
+        [props]="{
+          id: 'fastenersComment',
+          type: 'text',
+          required: false,
+          placeholder: 'Введите комментарий',
+        }"
+      ></app-admin-input>
+
+      <app-stack>
+        <app-admin-button *ngIf="!isCreate" (handleClick)="deleteChangeOpen()" variant="red">
+          Удалить
+        </app-admin-button>
+
+        <app-admin-button type="submit">
+          {{ isCreate ? 'Создать' : 'Редактировать' }}
+        </app-admin-button>
+      </app-stack>
+    </app-stack>
+  </app-admin-form>
+</app-stack>
+
+<!-- Модалка удаления -->
+<app-admin-modal [isOpen]="isOpenDelete" (handleChangeOpen)="deleteChangeOpen()">
+  <app-stack direction="column" alignItems="center">
+    <h4 class="adminTitle">Вы дествительно хотите удалить?</h4>
+
+    <app-stack>
+      <app-admin-button (handleClick)="deleteChangeOpen()" variant="gray">Отмена</app-admin-button>
+      <app-admin-button (handleClick)="delete()" variant="red">Удалить</app-admin-button>
+    </app-stack>
+  </app-stack>
+</app-admin-modal>

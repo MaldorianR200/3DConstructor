@@ -1,0 +1,86 @@
+<div
+  class="grid__item"
+  *ngIf="gridItem[type] as GridData"
+  [style.gridRowStart]="GridData.rowStart"
+  [style.gridRowEnd]="GridData.rowEnd"
+  [style.gridColumnStart]="GridData.columnStart"
+  [style.gridColumnEnd]="GridData.columnEnd"
+  [style.zIndex]="GridData.intersection.zIndex"
+>
+  <ng-container *ngIf="getEntity(gridItem.entityId) | async as entity">
+    <img
+      class="grid__img"
+      *ngIf="entity?.images?.length"
+      [src]="baseUrlStatic + entity.images[0]?.path"
+      alt="{{ entity.name }}"
+    />
+    <!-- <p class="grid__text">{{ entity.name }}</p> -->
+    <div class="z-index-overlay">ZIndex: {{ GridData.intersection.zIndex }}</div>
+
+    <div
+      class="stars"
+      *ngIf="GridData.intersection.data && GridData.intersection.data.length >= 2"
+      [ngStyle]="getStylesIntersection(GridData.intersection.data, 0, 1)"
+    ></div>
+
+    <div
+      class="stars"
+      *ngIf="GridData.intersection.data && GridData.intersection.data.length >= 4"
+      [ngStyle]="getStylesIntersection(GridData.intersection.data, 2, 3)"
+    ></div>
+
+    <div
+      class="stars"
+      *ngIf="GridData.intersection.data && GridData.intersection.data.length >= 6"
+      [ngStyle]="getStylesIntersection(GridData.intersection.data, 4, 5)"
+    ></div>
+
+    <!--     <div
+      class="stars"
+      [ngStyle]="getStylesIntersection(GridData.intersection.data, 3, 4)"
+    ></div> -->
+  </ng-container>
+
+  <!-- <button *ngIf="settings?.zIndex" class="index-button increment" (click)="incrementZIndex()">+</button>
+  <button *ngIf="settings?.zIndex" class="index-button decrement" (click)="decrementZIndex()">-</button>
+  <button *ngIf="settings?.deleting" class="index-button delete" (click)="delete()">del</button>
+
+  <button *ngIf="settings?.resizing" class="resize-handle" (mousedown)="handleStartResizing($event)"></button>
+  <button *ngIf="settings?.dragging" class="drag-handle" (mousedown)="handleStartDragging($event)"></button> -->
+
+  <button
+    *ngIf="(isAdmin$ | async) && settings?.zIndex"
+    class="index-button increment"
+    (click)="incrementZIndex()"
+    [style.zIndex]="GridData.intersection.zIndex + 1"
+  >
+    +
+  </button>
+  <button
+    *ngIf="(isAdmin$ | async) && settings?.zIndex"
+    class="index-button decrement"
+    (click)="decrementZIndex()"
+  >
+    -
+  </button>
+  <button
+    *ngIf="(isAdmin$ | async) && settings?.deleting"
+    class="index-button delete"
+    (click)="delete()"
+  >
+    del
+  </button>
+
+  <button
+    *ngIf="(isAdmin$ | async) && settings?.resizing"
+    class="resize-handle"
+    (mousedown)="handleStartResizing($event)"
+  ></button>
+
+  <button
+    *ngIf="(isAdmin$ | async) && settings?.dragging"
+    class="drag-handle"
+    (mousedown)="handleStartDragging($event)"
+    (touchstart)="handleStartDraggingTouch($event)"
+  ></button>
+</div>

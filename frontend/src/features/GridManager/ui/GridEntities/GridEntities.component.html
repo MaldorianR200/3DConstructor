@@ -1,0 +1,19 @@
+<swiper-container
+  init="false"
+  class="entities"
+  space-between="20"
+  slides-per-view="auto"
+  free-mode="true"
+  scrollbar-hide="true"
+>
+  <ng-container *ngFor="let entity of entities$ | async">
+    <swiper-slide
+      class="entities__item"
+      *ngIf="!entityInGrid(entity) && isAdmin$ | async"
+      (click)="toGrid(entity)"
+    >
+      <p>{{ entity.name }}</p>
+      <img [src]="baseUrlStatic + entity.images[0].path" *ngIf="entity.images.length" />
+    </swiper-slide>
+  </ng-container>
+</swiper-container>

@@ -1,0 +1,342 @@
+<app-stack direction="column" class="form">
+  <h1 class="adminTitle">{{ isCreate ? 'Создание' : 'Редактирование' }} фурнитуры</h1>
+
+  <app-admin-form [form]="furnitureForm" (handleSubmit)="submit()">
+    <app-stack direction="column" alignItems="end">
+      <app-admin-input
+        [control]="furnitureForm.get('typeId')!"
+        [props]="{
+          id: 'furnitureType',
+          type: 'select',
+          required: true,
+          placeholder: 'Выберите тип фурнитуры'
+        }"
+        [options]="types"
+        optionLabel="label"
+        optionValue="value"
+      ></app-admin-input>
+
+
+      <!-- Основные поля -->
+      <ng-container>
+        <app-admin-input
+          [control]="furnitureForm.get('name')!"
+          [props]="{
+            id: 'furnitureName',
+            type: 'text',
+            required: true,
+            placeholder: 'Введите название',
+          }"
+        ></app-admin-input>
+
+        <app-admin-input
+          [control]="furnitureForm.get('price')!"
+          [props]="{
+            id: 'furniturePrice',
+            type: 'number',
+            required: true,
+            placeholder: 'Введите себестоимость(₽)',
+          }"
+        ></app-admin-input>
+
+        <app-admin-input
+          *ngIf="isHandleType"
+          [control]="furnitureForm.get('typeHandle')!"
+          [props]="{
+            id: 'furnitureType_Handle',
+            type: 'select',
+            placeholder: 'Выберите тип ручки'
+          }"
+          [options]="type_handle"
+          optionValue="value"
+          optionLabel="label"
+        ></app-admin-input>
+
+        <app-admin-input
+          *ngIf="isHandleType"
+          [control]="furnitureForm.get('indentHandle')!"
+          [props]="{
+            id: 'furnitureIndent_Handle',
+            type: 'number',
+            placeholder: 'Введите отступ по умолчанию'
+          }"
+        ></app-admin-input>
+
+        <app-admin-input
+          *ngIf="isHandleType"
+          [control]="furnitureForm.get('changeIndent')!"
+          [props]="{
+            id: 'materialCategoryChangeIndent',
+            type: 'select',
+            placeholder: 'Изменяемый отступ?',
+            optionsBool: true,
+          }"
+        ></app-admin-input>
+
+        <!-- НАЧАЛО: Блок добавления отверстий -->
+        <ng-container *ngIf="isHandleType && furnitureForm.get('typeHandle')?.value === 'OVERHEAD_HANDLE'">
+          <app-stack direction="column" gap="10px" class="bracings-container" style="width: 100%; margin-top: 10px; border: 1px solid #e0e0e0; padding: 15px; border-radius: 8px;">
+
+            <app-stack direction="row" alignItems="center" justifyContent="space-between">
+              <h3 style="margin: 0;">Карта отверстий</h3>
+              <app-admin-button (handleClick)="addBracing()" size="small">
+                + Добавить отверстие
+              </app-admin-button>
+            </app-stack>
+
+            <span style="font-size: 12px; color: gray;">
+              Указывайте координаты как расстояние в мм от предыдущего отверстия.
+            </span>
+
+            <!-- Основной контент разделен на две части -->
+            <div class="bracing-content-wrapper" style="display: flex; gap: 20px; align-items: flex-start;">
+
+              <!-- ЛЕВАЯ КОЛОНКА: Инпуты -->
+              <div class="bracing-inputs" style="flex: 1;">
+                <ng-container *ngFor="let bracingGroup of bracingsArray.controls; let i = index">
+                  <app-stack direction="column" gap="5px" style="margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px;">
+
+                    <app-stack direction="row" gap="10px" alignItems="end">
+                      <span style="padding-bottom: 15px; width: 30px; font-weight: bold;">#{{ i + 1 }}</span>
+
+                      <app-admin-input
+                        [control]="bracingGroup.get('x')!"
+                        [props]="{
+                          id: 'bracing_x_' + i,
+                          type: 'number',
+                          placeholder: 'X (мм)',
+                          required: true
+                        }"
+                        style="flex: 1;"
+                      ></app-admin-input>
+
+                      <app-admin-input
+                        [control]="bracingGroup.get('y')!"
+                        [props]="{
+                          id: 'bracing_y_' + i,
+                          type: 'number',
+                          placeholder: 'Y (мм)',
+                          required: true
+                        }"
+                        style="flex: 1;"
+                      ></app-admin-input>
+
+                      <div style="padding-bottom: 5px;">
+                        <app-admin-button
+                          (handleClick)="removeBracing(i)"
+                          variant="red"
+                          size="small"
+                        >X</app-admin-button>
+                      </div>
+                    </app-stack>
+
+                    <!-- Вывод расстояния под инпутами -->
+                    <div style="font-size: 11px; color: gray; padding-left: 40px;">
+                      Прямая: <strong>{{ calcDistance(bracingGroup.get('x')?.value, bracingGroup.get('y')?.value) }} мм</strong>
+                      (X: {{ bracingGroup.get('x')?.value || 0 }}, Y: {{ bracingGroup.get('y')?.value || 0 }})
+                    </div>
+
+                  </app-stack>
+                </ng-container>
+
+                <div *ngIf="bracingsArray.length === 0" style="text-align: center; color: gray; padding: 20px;">
+                  Список отверстий пуст
+                </div>
+              </div>
+
+              <!-- ПРАВАЯ КОЛОНКА: Карта (SVG) -->
+              <div class="bracing-map" style="flex: 1; border: 1px solid #ccc; border-radius: 4px; background: #f9f9f9; padding: 10px; display: flex; justify-content: center; align-items: center; min-height: 400px; position: relative; overflow: hidden;">
+
+                <!-- ПАНЕЛЬ НАСТРОЕК (Слева сверху) -->
+                <div class="map-settings" style="position: absolute; top: 10px; left: 10px; background: rgba(255,255,255,0.9); padding: 8px; border-radius: 4px; border: 1px solid #ccc; z-index: 10; font-size: 12px; display: flex; flex-direction: column; gap: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+
+                  <!-- Управление размером текста -->
+                  <div style="display: flex; align-items: center; justify-content: space-between; gap: 5px; border-bottom: 1px solid #eee; padding-bottom: 5px;">
+                    <span>Текст:</span>
+                    <div style="display: flex; gap: 2px;">
+                      <button type="button" (click)="textSizeDown()" style="cursor: pointer; padding: 2px 6px;">A-</button>
+                      <button type="button" (click)="textSizeUp()" style="cursor: pointer; padding: 2px 6px;">A+</button>
+                    </div>
+                  </div>
+
+                  <!-- Чекбоксы видимости -->
+                  <label style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
+                    <input type="checkbox" [(ngModel)]="viewSettings.showLabels" [ngModelOptions]="{standalone: true}"> Номера точек
+                  </label>
+                  <label style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
+                    <input type="checkbox" [(ngModel)]="viewSettings.showDistance" [ngModelOptions]="{standalone: true}"> Расстояния (прямая)
+                  </label>
+                  <label style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
+                    <input type="checkbox" [(ngModel)]="viewSettings.showCoordValues" [ngModelOptions]="{standalone: true}"> Цифры (X/Y)
+                  </label>
+                  <label style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
+                    <input type="checkbox" [(ngModel)]="viewSettings.showCoordLines" [ngModelOptions]="{standalone: true}"> Линии координат
+                  </label>
+
+                  <!-- Быстрые действия -->
+                  <div style="display: flex; gap: 5px; margin-top: 5px; border-top: 1px solid #eee; padding-top: 5px;">
+                    <button type="button" (click)="hideAllLayers()" style="flex: 1; cursor: pointer; font-size: 10px; padding: 2px;">Скрыть всё</button>
+                    <button type="button" (click)="showAllLayers()" style="flex: 1; cursor: pointer; font-size: 10px; padding: 2px;">Показать всё</button>
+                  </div>
+                </div>
+
+                <!-- КНОПКИ ЗУМА (Справа сверху - без изменений) -->
+                <div class="zoom-controls" style="position: absolute; top: 10px; right: 10px; display: flex; flex-direction: column; gap: 5px; z-index: 10;">
+                  <button type="button" (click)="zoomIn()" style="width: 30px; height: 30px; cursor: pointer; background: white; border: 1px solid #ccc; border-radius: 4px; font-weight: bold;">+</button>
+                  <button type="button" (click)="zoomOut()" style="width: 30px; height: 30px; cursor: pointer; background: white; border: 1px solid #ccc; border-radius: 4px; font-weight: bold;">-</button>
+                  <button type="button" (click)="resetZoom()" style="width: 30px; height: 30px; cursor: pointer; background: white; border: 1px solid #ccc; border-radius: 4px; font-size: 10px;">1:1</button>
+                </div>
+
+                <!-- SVG -->
+                <svg *ngIf="bracingsArray.length > 0; else noMap"
+                     xmlns="http://www.w3.org/2000/svg"
+                     width="100%"
+                     height="100%"
+                     [attr.viewBox]="svgViewBox"
+                     preserveAspectRatio="xMidYMid meet"
+                     style="transition: all 0.2s ease-out;">
+
+                  <defs>
+                    <pattern id="smallGrid" width="10" height="10" patternUnits="userSpaceOnUse">
+                      <path d="M 10 0 L 0 0 0 10" fill="none" stroke="gray" stroke-width="0.5" opacity="0.1"/>
+                    </pattern>
+                  </defs>
+                  <rect width="10000%" height="10000%" x="-5000" y="-5000" fill="url(#smallGrid)" />
+
+                  <!-- Основной путь (всегда виден, но можно сделать полупрозрачным) -->
+                  <path
+                    fill="none"
+                    stroke="#333"
+                    stroke-width="1.5"
+                    [attr.d]="bracingPath"
+                    opacity="0.3"
+                  />
+
+                  <!-- Отрисовка размеров -->
+                  <g *ngFor="let m of measurements">
+
+                    <!-- Координатные линии (X) -->
+                    <line *ngIf="viewSettings.showCoordLines && m.valX !== 0"
+                          [attr.x1]="m.startX" [attr.y1]="m.startY"
+                          [attr.x2]="m.cornerX" [attr.y2]="m.startY"
+                          stroke="blue" stroke-width="1" stroke-dasharray="3,2" opacity="0.6"/>
+
+                    <!-- Цифра (X) -->
+                    <text *ngIf="viewSettings.showCoordValues && m.valX !== 0"
+                          [attr.x]="m.midX" [attr.y]="m.startY - (2 * viewSettings.textScale)"
+                          text-anchor="middle"
+                          [attr.font-size]="8 * viewSettings.textScale"
+                          fill="blue">
+                      {{ m.valX }}
+                    </text>
+
+                    <!-- Координатные линии (Y) -->
+                    <line *ngIf="viewSettings.showCoordLines && m.valY !== 0"
+                          [attr.x1]="m.cornerX" [attr.y1]="m.startY"
+                          [attr.x2]="m.endX" [attr.y2]="m.endY"
+                          stroke="red" stroke-width="1" stroke-dasharray="3,2" opacity="0.6"/>
+
+                    <!-- Цифра (Y) -->
+                    <text *ngIf="viewSettings.showCoordValues && m.valY !== 0"
+                          [attr.x]="m.cornerX + (2 * viewSettings.textScale)" [attr.y]="(m.startY + m.endY) / 2"
+                          dominant-baseline="middle"
+                          [attr.font-size]="8 * viewSettings.textScale"
+                          fill="red">
+                      {{ m.valY }}
+                    </text>
+
+                    <!-- Расстояние по прямой (Гипотенуза) -->
+                    <text *ngIf="viewSettings.showDistance"
+                          [attr.x]="m.midHypX" [attr.y]="m.midHypY"
+                          text-anchor="middle" dominant-baseline="middle"
+                          [attr.font-size]="9 * viewSettings.textScale"
+                          font-weight="bold" fill="#000"
+                          style="paint-order: stroke; stroke: rgba(255,255,255,0.8); stroke-width: 3px;">
+                      {{ m.dist }}
+                    </text>
+                  </g>
+
+                  <!-- Точки -->
+                  <g *ngFor="let point of calculatedPoints; let i = index">
+                    <circle [attr.cx]="point.x" [attr.cy]="point.y" [attr.r]="i === 0 ? 3 : 4" [attr.fill]="i === 0 ? 'black' : '#1976d2'" />
+
+                    <!-- Номер точки -->
+                    <text *ngIf="viewSettings.showLabels && i > 0"
+                          [attr.x]="point.x" [attr.y]="point.y - (8 * viewSettings.textScale)"
+                          text-anchor="middle"
+                          [attr.font-size]="10 * viewSettings.textScale"
+                          fill="#333" font-weight="bold">
+                      #{{ point.label }}
+                    </text>
+
+                    <!-- Старт (всегда показываем или тоже скрываем по showLabels, на ваше усмотрение) -->
+                    <text *ngIf="viewSettings.showLabels && i === 0"
+                          [attr.x]="point.x" [attr.y]="point.y - (8 * viewSettings.textScale)"
+                          text-anchor="middle"
+                          [attr.font-size]="9 * viewSettings.textScale"
+                          fill="gray">Start</text>
+                  </g>
+
+                </svg>
+
+                <ng-template #noMap>
+                  <span style="color: #aaa; font-size: 14px;">Добавьте координаты для отображения карты</span>
+                </ng-template>
+              </div>
+
+            </div>
+          </app-stack>
+        </ng-container>
+        <!-- КОНЕЦ: Блок добавления отверстий -->
+
+        <app-admin-input
+          [control]="furnitureForm.get('active')!"
+          [props]="{
+            id: 'materialCategoryActive',
+            type: 'select',
+            placeholder: 'Активно?',
+            optionsBool: true,
+          }"
+        ></app-admin-input>
+
+        <app-admin-input
+          *ngIf="furnitureForm.get('active')?.value === false"
+          [control]="furnitureForm.get('comment')!"
+          [props]="{
+            id: 'furnitureComment',
+            type: 'text',
+            required: false,
+            placeholder: 'Введите комментарий',
+          }"
+        ></app-admin-input>
+
+        <app-admin-file-loader-multiple
+          *ngIf="isHandleType"
+          [control]="furnitureForm.get('obj')!"
+          [required]="false"
+        ></app-admin-file-loader-multiple>
+      </ng-container>
+      <app-stack>
+        <app-admin-button *ngIf="!isCreate" (handleClick)="deleteChangeOpen()" variant="red">
+          Удалить
+        </app-admin-button>
+
+        <app-admin-button type="submit">
+          {{ isCreate ? 'Создать' : 'Редактировать' }}
+        </app-admin-button>
+      </app-stack>
+    </app-stack>
+  </app-admin-form>
+</app-stack>
+
+<!-- Модалка удаления -->
+<app-admin-modal [isOpen]="isOpenDelete" (handleChangeOpen)="deleteChangeOpen()">
+  <app-stack direction="column" alignItems="center">
+    <h4 class="adminTitle">Вы действительно хотите удалить?</h4>
+
+    <app-stack>
+      <app-admin-button (handleClick)="deleteChangeOpen()" variant="gray">Отмена</app-admin-button>
+      <app-admin-button (handleClick)="delete()" variant="red">Удалить</app-admin-button>
+    </app-stack>
+  </app-stack>
+</app-admin-modal>

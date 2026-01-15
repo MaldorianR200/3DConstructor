@@ -1,0 +1,65 @@
+.content {
+  background-color: var(--green-color);
+}
+.content .container {
+  display: flex;
+  width: 90%;
+  margin: 0 auto;
+  padding: 30px;
+  justify-content: center;
+}
+.content .container__title {
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--white-color);
+}
+.content .container__catalog {
+  width: 100%;
+  flex: 1;
+}
+.content .container__catalog ul {
+  list-style: none;
+  padding: 0;
+  color: white;
+}
+.content .container__catalog li {
+  font-weight: 300;
+  text-decoration: none;
+  border-bottom: 1px solid var(--white-color);
+  padding: 22px 0;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.content .container__catalog a {
+  color: var(--white-color);
+}
+.content .container__catalog li:hover,
+.content .container__catalog li.active {
+  background-color: #ffffff;
+}
+.content .container__catalog li:hover a,
+.content .container__catalog li.active a {
+  color: #000000;
+}
+.content .container__image {
+  flex: 1;
+  margin: 10px;
+  min-width: 0;
+  border-radius: var(--border-radius-m);
+  overflow: hidden;
+  display: flex;
+}
+.content .container__image img {
+  width: 100%;
+}
+
+@media (max-width: 1024px) {
+  .container__image {
+    display: none;
+  }
+}
+@media (max-width: 768px) {
+  .content .container {
+    padding: 0;
+    padding-top: 40px;
+  }
+} /*# sourceMappingURL=footer-catalog.component.css.map */

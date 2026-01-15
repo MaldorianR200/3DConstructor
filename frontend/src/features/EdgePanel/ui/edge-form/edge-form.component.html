@@ -1,0 +1,83 @@
+<app-stack direction="column" class="form">
+  <h1 class="adminTitle">
+    {{ isCreate ? "Создание" : "Редактирование" }} кромок
+  </h1>
+
+  <app-admin-form [form]="edgeForm" (handleSubmit)="submit()">
+    <app-stack direction="column" alignItems="end">
+      <app-admin-input
+        [control]="edgeForm.get('name')!"
+        [props]="{
+          id: 'edgeName',
+          type: 'text',
+          required: true,
+          placeholder: 'Введите название',
+        }"
+      ></app-admin-input>
+
+      <app-admin-input
+        [control]="edgeForm.get('thickness')!"
+        [props]="{
+          id: 'edgeThickness',
+          type: 'number',
+          required: true,
+          placeholder: 'Введите толщину(мм)',
+        }"
+      ></app-admin-input>
+
+      <app-admin-input
+        [control]="edgeForm.get('active')!"
+        [props]="{
+          id: 'edgeActive',
+          type: 'select',
+          required: true,
+          placeholder: 'Активно?',
+          optionsBool: true,
+        }"
+      ></app-admin-input>
+
+      <app-admin-input
+        *ngIf="edgeForm.get('active')?.value === false"
+        [control]="edgeForm.get('comment')!"
+        [props]="{
+          id: 'edgeComment',
+          type: 'text',
+          required: false,
+          placeholder: 'Введите комментарий',
+        }"
+      ></app-admin-input>
+
+      <app-stack>
+        <app-admin-button
+          *ngIf="!isCreate"
+          (handleClick)="deleteChangeOpen()"
+          variant="red"
+          >Удалить</app-admin-button
+        >
+
+        <app-admin-button type="submit">{{
+          isCreate ? "Создать" : "Редактировать"
+        }}</app-admin-button>
+      </app-stack>
+    </app-stack>
+  </app-admin-form>
+</app-stack>
+
+<!-- Модалка удаления -->
+<app-admin-modal
+  [isOpen]="isOpenDelete"
+  (handleChangeOpen)="deleteChangeOpen()"
+>
+  <app-stack direction="column" alignItems="center">
+    <h4 class="adminTitle">Вы дествительно хотите удалить?</h4>
+
+    <app-stack>
+      <app-admin-button (handleClick)="deleteChangeOpen()" variant="gray"
+        >Отмена</app-admin-button
+      >
+      <app-admin-button (handleClick)="delete()" variant="red"
+        >Удалить</app-admin-button
+      >
+    </app-stack>
+  </app-stack>
+</app-admin-modal>

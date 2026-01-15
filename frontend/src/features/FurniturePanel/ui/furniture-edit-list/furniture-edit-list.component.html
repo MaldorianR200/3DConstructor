@@ -1,0 +1,16 @@
+<app-stack gap="16px" direction="column">
+  <app-admin-search (searchChange)="onSearchChange($event)"></app-admin-search>
+
+  <div class="editList">
+    <article
+      class="editList__item"
+      *ngFor="
+        let furniture of (furnitures$ | async) ?? [] | filterSearch: searchText : ['id', 'name']
+      "
+      (click)="changeCur(furniture)"
+    >
+      <p [appHighlight]="furniture.id!.toString()" [search]="searchText"></p>
+      <p [appHighlight]="furniture.name" [search]="searchText"></p>
+    </article>
+  </div>
+</app-stack>

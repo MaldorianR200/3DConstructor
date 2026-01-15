@@ -1,0 +1,67 @@
+.logList {
+  width: var(--admin-width);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.logList__header {
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: end;
+  gap: 10px;
+}
+.logList__header h3 {
+  font-size: 20px;
+  width: 170px;
+}
+
+.logItem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+.logItem .id {
+  width: 60px;
+  font-size: 14px;
+  font-weight: 400;
+  text-align: end;
+}
+.logItem__container {
+  flex: 1;
+  border: 2px solid var(--admin-dark-gray);
+  border-radius: var(--admin-radius-m);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  padding-left: 10px;
+  overflow: hidden;
+  box-shadow: var(--admin-box-shadow);
+}
+.logItem__container h4.authentication {
+  color: var(--admin-dark-gray);
+}
+.logItem__container h4.create {
+  color: var(--admin-green);
+}
+.logItem__container h4.update,
+.logItem__container h4.upload {
+  color: var(--admin-main);
+}
+.logItem__container h4.delete {
+  color: var(--admin-red);
+}
+.logItem__container .performedBy {
+  flex: 1;
+  text-align: end;
+}
+.logItem__container .performedAt {
+  margin-left: 15px;
+  padding: 10px 20px;
+  color: var(--admin-white);
+  background-color: var(--admin-dark-gray);
+} /*# sourceMappingURL=log-list.component.css.map */

@@ -1,0 +1,28 @@
+.previewCalculator {
+  width: 100vw;
+  max-width: 100%;
+  padding: 133px calc((100% - var(--desktop-width)) / 2);
+  background-color: var(--gray-color);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 68px;
+}
+.previewCalculator__img {
+  flex: 1;
+}
+.previewCalculator__container {
+  flex: 1;
+}
+.previewCalculator__title {
+  margin-bottom: 20px;
+}
+.previewCalculator__text {
+  font-weight: 300;
+  margin-bottom: 30px;
+}
+.previewCalculator__link {
+  color: var(--white-text-color);
+  font-weight: 300;
+  text-decoration: underline;
+} /*# sourceMappingURL=preview-calculator.component.css.map */

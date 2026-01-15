@@ -1,0 +1,46 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  margin: 100px auto 0 auto;
+}
+
+.container {
+  width: 100%;
+  --swiper-scrollbar-sides-offset: calc((100% - var(--desktop-width)) / 2);
+  --swiper-scrollbar-top: 0;
+  --swiper-scrollbar-bottom: auto;
+  --swiper-scrollbar-size: 8px;
+}
+.container__slide {
+  display: block;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
+.entitiesContainer {
+  width: var(--desktop-width);
+  margin: 0 auto;
+}
+
+.entity {
+  width: 200px;
+  aspect-ratio: 1;
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.entity p {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: block;
+  max-width: 100%;
+}
+.entity img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
+} /*# sourceMappingURL=catalog-page.component.css.map */

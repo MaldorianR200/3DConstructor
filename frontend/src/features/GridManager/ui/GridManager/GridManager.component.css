@@ -1,0 +1,48 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
+.entities {
+  width: var(--desktop-width);
+  margin: 0 auto;
+}
+.entities__item {
+  width: 150px;
+  aspect-ratio: 1;
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.entities__item p {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: block;
+  max-width: 100%;
+}
+.entities__item img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+
+.grids {
+  width: 100%;
+  --swiper-scrollbar-sides-offset: calc((100% - var(--desktop-width)) / 2);
+  --swiper-scrollbar-top: 0;
+  --swiper-scrollbar-bottom: auto;
+  --swiper-scrollbar-size: 8px;
+}
+.grids__slide {
+  display: block;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
+.button {
+  margin: 0 calc((100% - var(--desktop-width)) / 2) 0 auto;
+} /*# sourceMappingURL=GridManager.component.css.map */

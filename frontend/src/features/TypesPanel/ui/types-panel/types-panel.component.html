@@ -1,0 +1,11 @@
+<app-stack class="panel" direction="column" alignItems="center" gap="32px">
+  <app-admin-change-action [isEdit]="isEdit"></app-admin-change-action>
+
+  <app-types-form *ngIf="!isEdit || curEditTypes$.value" [types$]="curEditTypes$"></app-types-form>
+
+  <app-types-edit-list
+    *ngIf="isEdit"
+    [typess$]="typess$"
+    [curEditTypes$]="curEditTypes$"
+  ></app-types-edit-list>
+</app-stack>

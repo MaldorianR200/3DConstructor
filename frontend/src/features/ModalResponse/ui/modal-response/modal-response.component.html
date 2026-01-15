@@ -1,0 +1,13 @@
+<div *ngIf="modalResponseService.isOpen" class="modalOverlay" (click)="changeVisibility()">
+  <div *ngIf="modalResponseService.isLoad" class="loader"></div>
+
+  <div *ngIf="!modalResponseService.isLoad" class="modal">
+    <h2 class="adminTitle">{{ modalResponseService.resText }}</h2>
+
+    <div class="modal__checkmark" [ngClass]="{ complete: modalResponseService.isComplete }"></div>
+
+    <button class="modal__btn" (click)="changeVisibility()">
+      {{ modalResponseService.resBtn }}
+    </button>
+  </div>
+</div>

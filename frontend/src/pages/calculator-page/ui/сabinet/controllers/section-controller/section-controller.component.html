@@ -1,0 +1,27 @@
+<div class="section-controller" *ngIf="selectedSection && !hideUI">
+  <div class="section-control-panel">
+    <div class="section-header">
+      <h3>Секция: {{ getSectionName(selectedSection) }}</h3>
+      <button (click)="clearSelection()" class="btn btn-close" title="Закрыть">
+        ✕
+      </button>
+    </div>
+
+    <div class="section-actions">
+      <button
+        (click)="addShelfToSection(selectedSection)"
+        class="btn btn-primary"
+        title="Добавить полку в секцию">
+        📐 Добавить полку
+      </button>
+
+      <button
+        (click)="addBlockDrawer(selectedSection)"
+        class="btn btn-primary"
+        title="Добавить блок ящиков в секцию">
+        📦 Добавить ящики
+      </button>
+    </div>
+  </div>
+</div>
+

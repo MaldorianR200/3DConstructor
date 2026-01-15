@@ -1,0 +1,16 @@
+<app-stack gap="16px" direction="column">
+  <app-admin-search (searchChange)="onSearchChange($event)"></app-admin-search>
+
+  <div class="editList">
+    <article
+      class="editList__item"
+      *ngFor="
+        let fasteners of (fastenerss$ | async) ?? [] | filterSearch: searchText : ['id', 'name']
+      "
+      (click)="changeCur(fasteners)"
+    >
+      <p [appHighlight]="fasteners.id!.toString()" [search]="searchText"></p>
+      <p [appHighlight]="fasteners.name" [search]="searchText"></p>
+    </article>
+  </div>
+</app-stack>

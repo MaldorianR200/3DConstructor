@@ -1,0 +1,145 @@
+<section class="widgetsList">
+  <app-admin-widget-template
+    class="widgetsList__item"
+    [props]="{
+      title: 'Продукты',
+      countItems: (productsCount$ | async) ?? 0,
+      widgetsIconPath: '/shared/assets/admin/productsIcon.svg',
+      link: routes.ADMIN_PANEL_PRODUCTS,
+    }"
+  ></app-admin-widget-template>
+
+  <app-admin-widget-template
+    class="widgetsList__item"
+    [props]="{
+      title: 'Категории',
+      countItems: (categoriesCount$ | async) ?? 0,
+      widgetsIconPath: '/shared/assets/admin/categoriesIcon.svg',
+      link: routes.ADMIN_PANEL_CATEGORIES,
+    }"
+  ></app-admin-widget-template>
+
+  <app-admin-widget-template
+    class="widgetsList__item"
+    [props]="{
+      title: 'Новости',
+      countItems: (newsCount$ | async) ?? 0,
+      widgetsIconPath: '/shared/assets/admin/newsIcon.svg',
+      link: routes.ADMIN_PANEL_NEWS,
+    }"
+  ></app-admin-widget-template>
+
+  <app-admin-widget-template
+    class="widgetsList__item"
+    [props]="{
+      title: 'Типы',
+      countItems: (typesCount$ | async) ?? 0,
+      widgetsIconPath: '/shared/assets/admin/types.svg',
+      link: routes.ADMIN_PANEL_TYPES,
+    }"
+  ></app-admin-widget-template>
+
+  <app-admin-widget-template
+    class="widgetsList__item"
+    [props]="{
+      title: 'Материалы',
+      countItems: (materialsCount$ | async) ?? 0,
+      widgetsIconPath: '/shared/assets/admin/materialIcon.svg',
+      link: routes.ADMIN_PANEL_MATERIALS,
+    }"
+  ></app-admin-widget-template>
+
+  <app-admin-widget-template
+    class="widgetsList__item"
+    [props]="{
+      title: 'Кромка',
+      countItems: (edgesCount$ | async) ?? 0,
+      widgetsIconPath: '/shared/assets/admin/edgesIcon.png',
+      link: routes.ADMIN_PANEL_EDGES,
+    }"
+  ></app-admin-widget-template>
+
+  <app-admin-widget-template
+    class="widgetsList__item"
+    [props]="{
+      title: 'Цвета',
+      countItems: (colorsCount$ | async) ?? 0,
+      widgetsIconPath: '/shared/assets/admin/colorIcon.svg',
+      link: routes.ADMIN_PANEL_COLORS,
+    }"
+  ></app-admin-widget-template>
+
+  <app-admin-widget-template
+    class="widgetsList__item"
+    [props]="{
+      title: 'Фурнитура',
+      countItems: (furnituresCount$ | async) ?? 0,
+      widgetsIconPath: '/shared/assets/admin/furnitures.svg',
+      link: routes.ADMIN_PANEL_FURNITURES,
+    }"
+  ></app-admin-widget-template>
+
+  <app-admin-widget-template
+    class="widgetsList__item"
+    [props]="{
+      title: 'Крепежи',
+      countItems: (fastenersCount$ | async) ?? 0,
+      widgetsIconPath: '/shared/assets/admin/fasteners.svg',
+      link: routes.ADMIN_PANEL_FASTENERS,
+    }"
+  ></app-admin-widget-template>
+
+  <app-admin-widget-template
+    class="widgetsList__item"
+    [props]="{
+      title: 'Услуги и операции',
+      countItems: (actionsCount$ | async) ?? 0,
+      widgetsIconPath: '/shared/assets/admin/actions.svg',
+      link: routes.ADMIN_PANEL_ACTIONS,
+    }"
+  ></app-admin-widget-template>
+
+  <app-admin-widget-template
+    class="widgetsList__item"
+    [props]="{
+      title: 'Серии продукции',
+      countItems: (seriesCount$ | async) ?? 0,
+      widgetsIconPath: '/shared/assets/admin/series.svg',
+      link: routes.ADMIN_PANEL_SERIES,
+    }"
+  ></app-admin-widget-template>
+
+  <app-admin-widget-template
+    class="widgetsList__item"
+    [props]="{
+      title: 'Фрезеровка',
+      countItems: (millingsCount$ | async) ?? 0,
+      widgetsIconPath: '/shared/assets/admin/millings.svg',
+      link: routes.ADMIN_PANEL_MILLINGS,
+    }"
+  ></app-admin-widget-template>
+
+  <app-admin-widget-template
+    class="widgetsList__item"
+    [props]="{
+      title: 'Комб. материалы',
+      countItems: (combine_materialsCount$ | async) ?? 0,
+      widgetsIconPath: '/shared/assets/admin/combine_materialsIcon.png',
+      link: routes.ADMIN_PANEL_COMBINE_MATERIALS,
+    }"
+  ></app-admin-widget-template>
+
+  <app-admin-widget-template
+    class="widgetsList__item"
+    [props]="{
+      title: 'Спецификации',
+      countItems: (specificationsCount$ | async) ?? 0,
+      widgetsIconPath: '/shared/assets/admin/specifications.svg',
+      link: routes.ADMIN_PANEL_SPECIFICATIONS,
+    }"
+  ></app-admin-widget-template>
+
+
+</section>
+
+<router-outlet></router-outlet>

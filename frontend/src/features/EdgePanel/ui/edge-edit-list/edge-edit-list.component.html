@@ -1,0 +1,18 @@
+<app-stack gap="16px" direction="column">
+  <app-admin-search (searchChange)="onSearchChange($event)"></app-admin-search>
+
+  <div class="editList">
+    <article
+      class="editList__item"
+      *ngFor="let edge of (edges$ | async) ?? [] | filterSearch: searchText:['id', 'name']"
+      (click)="changeCur(edge)"
+    >
+      <!-- <img src="{{ baseUrlStatic }}{{edge.images[0].path}}" /> -->
+      <p
+        [appHighlight]="edge.id!.toString()"
+        [search]="searchText"
+      ></p>
+      <p [appHighlight]="edge.name" [search]="searchText"></p>
+    </article>
+  </div>
+</app-stack>

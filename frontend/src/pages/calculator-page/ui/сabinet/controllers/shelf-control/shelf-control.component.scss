@@ -1,0 +1,159 @@
+.control-shelf {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  width: 280px;
+  position: absolute;
+  top: 20rem;
+  left: calc(20rem + 240px);
+  z-index: 10;
+  border: 1px solid #e0e0e0;
+}
+
+.control-shelf h3 {
+  margin: 0 0 18px 0;
+  color: #333;
+  font-size: 18px;
+  font-weight: 600;
+  border-bottom: 2px solid #3f51b5;
+  padding-bottom: 10px;
+  width: 100%;
+  text-align: center;
+}
+
+.shelf-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.rod-side-selection,
+.top-cabinet-controls,
+.main-shelf-controls,
+.main-top-cabinet-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.rod-side-selection p {
+  margin: 0 0 10px 0;
+  color: #555;
+  font-size: 14px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.btn {
+  padding: 12px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 44px;
+}
+
+/* Кнопки */
+.btn-primary {
+  background: linear-gradient(135deg, #3f51b5 0%, #5c6bc0 100%);
+  color: white;
+  border: 1px solid #3f51b5;
+
+  &:hover {
+    background: linear-gradient(135deg, #303f9f 0%, #4a5abf 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(63, 81, 181, 0.3);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(63, 81, 181, 0.2);
+  }
+}
+
+.btn-secondary {
+  background: linear-gradient(135deg, #6c757d 0%, #868e96 100%);
+  color: white;
+  border: 1px solid #6c757d;
+
+  &:hover {
+    background: linear-gradient(135deg, #545b62 0%, #727b84 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(108, 117, 125, 0.3);
+  }
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #d32f2f 0%, #f44336 100%);
+  color: white;
+  border: 1px solid #d32f2f;
+
+  &:hover {
+    background: linear-gradient(135deg, #b71c1c 0%, #d32f2f 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(211, 47, 47, 0.3);
+  }
+}
+
+.btn:disabled {
+  background: #e0e0e0;
+  color: #9e9e9e;
+  border: 1px solid #bdbdbd;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.top-cabinet-controls .btn-primary {
+  background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
+  border: 1px solid #4CAF50;
+
+  &:hover {
+    background: linear-gradient(135deg, #388E3C 0%, #4CAF50 100%);
+    box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+  }
+}
+
+/* Информация о секции */
+.section-info {
+  margin-top: 10px;
+  padding: 10px;
+  background: #f8f9fa;
+  border-radius: 6px;
+  font-size: 13px;
+  border-left: 4px solid #3f51b5;
+  color: #555;
+}
+
+.section-info strong {
+  color: #3f51b5;
+}
+
+/* Мобильная версия */
+@media (max-width: 768px) {
+  .control-shelf {
+    width: 280px;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 15px;
+  }
+
+  .btn {
+    padding: 14px 16px;
+    font-size: 15px;
+  }
+}

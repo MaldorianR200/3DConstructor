@@ -1,0 +1,23 @@
+<app-stack direction="column" class="form">
+  <h1 class="adminTitle">robots.txt</h1>
+
+  <app-admin-form [form]="seoForm" (handleSubmit)="submit()">
+    <app-stack direction="column" alignItems="center">
+      <app-admin-input
+        [control]="seoForm.get('robots')!"
+        [props]="{
+          id: 'robotsContent',
+          type: 'text',
+          required: true,
+          placeholder: 'Введите содержание',
+          textarea: true,
+        }"
+      ></app-admin-input>
+
+      <app-admin-button type="submit">Редактировать</app-admin-button>
+      <app-admin-button (handleClick)="generateSiteMap()" variant="red">
+        Обновить sitemap
+      </app-admin-button>
+    </app-stack>
+  </app-admin-form>
+</app-stack>

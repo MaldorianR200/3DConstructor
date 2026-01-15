@@ -1,0 +1,18 @@
+<app-stack gap="16px" direction="column">
+  <app-admin-search (searchChange)="onSearchChange($event)"></app-admin-search>
+
+  <div class="editList">
+    <article
+      class="editList__item"
+      *ngFor="let combineMaterial of (combineMaterials$ | async) ?? [] | filterSearch: searchText:['id', 'name']"
+      (click)="changeCur(combineMaterial)"
+    >
+      <!-- <img src="{{ baseUrlStatic }}{{combineMaterial.images[0].path}}" /> -->
+      <p
+        [appHighlight]="combineMaterial.id!.toString()"
+        [search]="searchText"
+      ></p>
+      <p [appHighlight]="combineMaterial.name" [search]="searchText"></p>
+    </article>
+  </div>
+</app-stack>

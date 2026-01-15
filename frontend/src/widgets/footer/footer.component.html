@@ -1,0 +1,8 @@
+<app-footer-catalog *ngIf="showFooterCatalog"></app-footer-catalog>
+<footer class="footer" [ngClass]="{ catalog: isGray }">
+  <a href="https://sitenn.ru/" target="_blank" class="footer__item">
+    Разработка сайта -
+    <u>САЙТ НН</u>
+  </a>
+  <p class="footer__item">© {{ getNowYear() }} САНДИ</p>
+</footer>

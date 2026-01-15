@@ -1,0 +1,29 @@
+<section class="logList">
+  <app-admin-search (searchChange)="onSearchChange($event)"></app-admin-search>
+  <header class="logList__header">
+    <h3>Кем</h3>
+    <h3>Когда</h3>
+  </header>
+
+  <article
+    class="logItem"
+    *ngFor="
+      let log of (logs$ | async) ?? []
+        | filterSearch: searchText : ['id', 'performedBy', 'performedAt']
+    "
+  >
+    <h5 class="id">ID: {{ log.id }}</h5>
+
+    <div class="logItem__container">
+      <h4 class="{{ log.type.split('.') }}">{{ mapper(log)[0] }}</h4>
+      <p>{{ mapper(log)[1] }}</p>
+
+      <p [appHighlight]="log.performedBy" [search]="searchText" class="performedBy"></p>
+      <p
+        [appHighlight]="handleFormatDate(log.performedAt)"
+        [search]="searchText"
+        class="performedAt"
+      ></p>
+    </div>
+  </article>
+</section>

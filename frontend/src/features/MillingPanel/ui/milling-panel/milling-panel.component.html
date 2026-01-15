@@ -1,0 +1,14 @@
+<app-stack class="panel" direction="column" alignItems="center" gap="32px">
+  <app-admin-change-action [isEdit]="isEdit"></app-admin-change-action>
+
+  <app-milling-form
+    *ngIf="!isEdit || curEditMilling$.value"
+    [milling$]="curEditMilling$"
+  ></app-milling-form>
+
+  <app-milling-edit-list
+    *ngIf="isEdit"
+    [millings$]="millings$"
+    [curEditMilling$]="curEditMilling$"
+  ></app-milling-edit-list>
+</app-stack>
